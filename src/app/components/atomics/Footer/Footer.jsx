@@ -1,0 +1,11 @@
+const Footer = () => {
+  return (
+    <div>
+      <footer className="bottom-0 mt-[5rem] flex justify-between bg-black px-5 py-10">
+        <div>lilJoint@dventures All Right Reserved</div>
+        <a href="#home">Ir arriba</a>
+      </footer>
+    </div>
+  )
+}
+export default Footer

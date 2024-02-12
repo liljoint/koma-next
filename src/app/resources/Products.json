@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "productName": "Piscolas",
+    "price": 5000,
+    "businessAreaId": 1
+  },
+  {
+    "id": 2,
+    "productName": "Michelada",
+    "price": 3500,
+    "businessAreaId": 1
+  },
+  {
+    "id": 3,
+    "productName": "Ronaldo",
+    "price": 8000,
+    "businessAreaId": 1
+  },
+  {
+    "id": 4,
+    "productName": "Completo",
+    "price": 2000,
+    "businessAreaId": 2
+  },
+  {
+    "id": 5,
+    "productName": "Chorrillana",
+    "price": 8000,
+    "businessAreaId": 2
+  }
+]
