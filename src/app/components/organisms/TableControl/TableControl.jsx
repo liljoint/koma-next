@@ -1,45 +1,42 @@
-"use client";
-import { useState } from "react";
-import TableList from "../../molecules/TableList/TableList";
-import Modal from "../../molecules/Modal/Modal";
-import allTables from "../../../resources/Tables.json";
-import ProductSelection from "../ProductList/ProductSelection";
+'use client'
+import { useState } from 'react'
+import TableList from '../../molecules/TableList/TableList'
+import allTables from '../../../resources/Tables.json'
+import ProductSelection from '../ProductList/ProductSelection'
+import ModalCustom, {
+  ModalBody,
+  ModalHeader,
+} from '../../molecules/ModalCustom/ModalCustom'
+import InitTable from '../InitTable/InitTable'
 
 const TableControl = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedTable, setSelectedTable] = useState(null);
-  const [tables, setTables] = useState(allTables);
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedTable, setSelectedTable] = useState(false)
+  const [tables, setTables] = useState(allTables)
 
   const handleClick = ({ name, available }) => {
-    setSelectedTable({ name, available });
-  };
+    setSelectedTable({ name, available })
+  }
+
   const handleEnable =
-    ({ name, available }) =>
+    ({ name }) =>
     () => {
-      setSelectedTable({ name, available });
-      setIsOpen(false);
       setTables((prev) => {
         return prev.map((pre) => {
           if (pre.name === name) {
             return {
               name,
-              available,
-            };
+              available: false,
+            }
           }
-          return pre;
-        });
-      });
-    };
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-  const ModalContentAvailable = () => (
-    <>Desea inicializar la mesa seleccionada?</>
-  );
+          return pre
+        })
+      })
+      openHandle()
+    }
+  const openHandle = () => {
+    setIsOpen(!isOpen)
+  }
 
   return (
     <>
@@ -48,30 +45,26 @@ const TableControl = () => {
         tables={tables}
         handleClick={({ name, available }) =>
           () => {
-            openModal();
-            handleClick({ name, available });
+            openHandle()
+            handleClick({ name, available })
           }}
       />
-      <Modal
-        isOpen={isOpen}
-        onClose={closeModal}
-        isCentered
-        closeOnOverlayClick={false}
-        actionTitle={selectedTable?.available ? "Activar" : undefined}
-        action={handleEnable({
-          name: selectedTable?.name,
-          available: false,
-        })}
-        header={selectedTable?.name}
-        size="xl"
-      >
-        {selectedTable?.available ? (
-          <ModalContentAvailable />
-        ) : (
-          <ProductSelection />
-        )}
-      </Modal>
+      <ModalCustom isOpen={isOpen} handler={openHandle} size="md">
+        <ModalHeader handler={openHandle} />
+        <ModalBody>
+          {selectedTable?.available ? (
+            <InitTable
+              onClick={handleEnable(selectedTable)}
+              title={`Inicializar ${selectedTable?.name}`}
+            />
+          ) : (
+            <ProductSelection
+              title={`Agregar productos: ${selectedTable?.name}`}
+            />
+          )}
+        </ModalBody>
+      </ModalCustom>
     </>
-  );
-};
-export default TableControl;
+  )
+}
+export default TableControl

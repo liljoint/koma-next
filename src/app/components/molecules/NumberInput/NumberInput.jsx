@@ -1,13 +1,9 @@
-import {
-  NumberInputField,
-  NumberInput as UiNumberInput,
-} from "@chakra-ui/react";
+import Input from '../../atomics/Input/Input'
 
-const NumberInput = ({ ...rest }) => {
-  return (
-    <UiNumberInput {...rest}>
-      <NumberInputField />
-    </UiNumberInput>
-  );
-};
-export default NumberInput;
+const NumberInput = ({ onChange, ...rest }) => {
+  const handleChange = ({ target }) => {
+    onChange(target.value)
+  }
+  return <Input type="number" onChange={handleChange} {...rest} />
+}
+export default NumberInput
