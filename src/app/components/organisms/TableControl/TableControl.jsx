@@ -40,7 +40,7 @@ const TableControl = () => {
 
   return (
     <>
-      <h1>Mesas</h1>
+      <h1 className="text-text">Mesas</h1>
       <TableList
         tables={tables}
         handleClick={({ name, available }) =>
@@ -49,7 +49,12 @@ const TableControl = () => {
             handleClick({ name, available })
           }}
       />
-      <ModalCustom isOpen={isOpen} handler={openHandle} size="md">
+      <ModalCustom
+        isOpen={isOpen}
+        handler={openHandle}
+        size="md"
+        className={'bg-bg'}
+      >
         <ModalHeader handler={openHandle} />
         <ModalBody>
           {selectedTable?.available ? (
