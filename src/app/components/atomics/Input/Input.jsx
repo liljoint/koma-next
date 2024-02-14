@@ -1,6 +1,6 @@
-import { Input as UiInput } from "@chakra-ui/react";
+import { Input as UiInput } from '@material-tailwind/react'
 
 const Input = ({ ...rest }) => {
-  <UiInput {...rest} />;
-};
-export default Input;
+  return <UiInput {...rest} />
+}
+export default Input

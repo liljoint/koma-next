@@ -1,10 +1,10 @@
-import ReactSelect from "react-select";
+import ReactSelect from 'react-select'
 
 const Autocomplete = ({ ...rest }) => {
   return (
     <>
-      <ReactSelect {...rest} className=" text-black" openMenuOnClick={false} />
+      <ReactSelect {...rest} className=" text-bg" openMenuOnClick={false} />
     </>
-  );
-};
-export default Autocomplete;
+  )
+}
+export default Autocomplete

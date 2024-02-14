@@ -1,6 +1,6 @@
-import { Button as UiButton } from "@chakra-ui/react";
+import { Button as UiButton } from '@material-tailwind/react'
 
 const Button = ({ ...rest }) => {
-  return <UiButton {...rest} />;
-};
-export default Button;
+  return <UiButton {...rest} />
+}
+export default Button

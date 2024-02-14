@@ -16,6 +16,26 @@
   }
 }
 
+@layer base {
+  html {
+    --color-bg: white;
+    --color-text: black;
+    --color-header: white;
+  }
+}
+
+html[data-theme='dark'] {
+  --color-bg: black;
+  --color-text: white;
+  --color-header: white;
+}
+
+html[data-theme='light'] {
+  --color-bg: white;
+  --color-text: black;
+  --color-header: white;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
