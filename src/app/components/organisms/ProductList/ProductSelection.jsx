@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import Autocomplete from '../../molecules/Autocomplete/Autocomplete'
-import Products from '@/app/resources/Products.json'
-import NumberInput from '../../molecules/NumberInput/NumberInput'
-import Button from '../../atomics/Button/Button'
-import PrintButton from '../../molecules/PrintButton/PrintButton'
+import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
+import Products from '@/resources/Products.json'
+import NumberInput from '@/app/components/molecules/NumberInput/NumberInput'
+import Button from '@/app/components/atomics/Button/Button'
+import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
 
 const ProductSelection = ({ title }) => {
   const [selectedItem, setSelectedItem] = useState(null)

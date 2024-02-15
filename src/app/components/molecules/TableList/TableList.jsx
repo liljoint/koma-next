@@ -1,4 +1,4 @@
-import OrderTable from '../OrderTable/OrderTable'
+import OrderTable from '@/app/components/molecules/OrderTable/OrderTable'
 
 const TableList = ({ tables, handleClick }) => {
   return (

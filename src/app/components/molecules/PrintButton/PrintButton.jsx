@@ -1,5 +1,5 @@
-import posPrinter from '@/app/actions/posPrinter'
-import Button from '../../atomics/Button/Button'
+import posPrinter from '@/actions/posPrinter'
+import Button from '@/app/components/atomics/Button/Button'
 
 const PrintButton = ({ content }) => {
   const body = `<html><style>body {

@@ -1,4 +1,4 @@
-import Button from '../../atomics/Button/Button'
+import Button from '@/app/components/atomics/Button/Button'
 
 const InitTable = ({ onClick, title }) => {
   return (
