@@ -5,6 +5,7 @@ import Button from '@/app/components/atomics/Button/Button'
 import Input from '@/app/components/atomics/Input/Input'
 import { Spinner } from '@material-tailwind/react'
 import Alert from '../../atomics/Alert/Alert'
+import auth from '@/client/auth/auth'
 
 const LoginForm = () => {
   const [formErrors, setFormErrors] = useState({})
@@ -13,7 +14,7 @@ const LoginForm = () => {
     email: string().email({ message: 'Email invalido' }),
     pw: string().min(6, { message: 'Min. 6 caracteres' }),
   })
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     setFormErrors({})
     e.preventDefault()
     const formData = new FormData(e.target)
@@ -22,16 +23,21 @@ const LoginForm = () => {
     try {
       const result = loginSchema.parse(data)
       setAlert(true)
-      setTimeout(() => {
-        setAlert(false)
-      }, 4000)
-      console.log(result)
+      const authData = await auth(result)
+      console.log('authData', authData)
     } catch (error) {
+      setAlert(false)
       const err = {}
-      error?.issues?.map((e) => {
-        err[e.path[0]] = e.message
-      })
-      setFormErrors(err)
+      if (error?.issues) {
+        error?.issues?.map((e) => {
+          err[e.path[0]] = e.message
+        })
+        setFormErrors(err)
+      } else {
+        setFormErrors({
+          form: error.message,
+        })
+      }
     }
   }
 
@@ -73,8 +79,15 @@ const LoginForm = () => {
         </form>
       </div>
 
-      <Alert color="red" open={alert} onClose={() => setAlert(false)}>
+      <Alert color="blue" open={alert} onClose={() => setAlert(false)}>
         Logueando <Spinner />
+      </Alert>
+      <Alert
+        color="red"
+        open={formErrors['form'] ? true : false}
+        onClose={() => setFormErrors({})}
+      >
+        {formErrors['form']}
       </Alert>
     </>
   )
