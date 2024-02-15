@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/mt'
-import './globals.css'
+import '@/app/globals.css'
+import App from './components/organisms/App/App'
 
 export const metadata = {
   title: 'KOMA APP',
@@ -10,7 +11,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <App>{children}</App>
+        </ThemeProvider>
       </body>
     </html>
   )

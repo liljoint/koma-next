@@ -2,9 +2,12 @@
 import { useState } from 'react'
 import { List, ListItem } from '@material-tailwind/react'
 import { Bars4Icon, SunIcon } from '@heroicons/react/24/outline'
-import ModalCustom, { ModalBody, ModalHeader } from '../ModalCustom/ModalCustom'
+import ModalCustom, {
+  ModalBody,
+  ModalHeader,
+} from '@/app/components/molecules/ModalCustom/ModalCustom'
 import Link from 'next/link'
-import { changeTheme, getTheme } from '@/app/actions/helper'
+import { changeTheme, getTheme } from '@/actions/helper'
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -21,7 +24,7 @@ const SideBar = () => {
     <>
       <div className="justify-between">
         <button onClick={handleOpen}>
-          <Bars4Icon className="fill-header text-header h-5 w-5 rounded-md" />
+          <Bars4Icon className="h-5 w-5 rounded-md fill-header text-header" />
         </button>
       </div>
       <ModalCustom
@@ -32,15 +35,19 @@ const SideBar = () => {
       >
         <ModalHeader handler={handleOpen}>
           <button onClick={handleTheme}>
-            <SunIcon className="text-text h-5 w-5 rounded-md" />
+            <SunIcon className="h-5 w-5 rounded-md text-text" />
           </button>
         </ModalHeader>
         <ModalBody>
           <List>
-            <Link href="/asd">
-              {' '}
+            <Link href="/login">
               <ListItem className="justify-center rounded-none border-b-2 border-gray-500 p-2">
-                Link1
+                LOGIN
+              </ListItem>
+            </Link>
+            <Link href="/">
+              <ListItem className="justify-center rounded-none border-b-2 border-gray-500 p-2">
+                HOME
               </ListItem>
             </Link>
           </List>

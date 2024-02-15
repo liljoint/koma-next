@@ -1,5 +1,5 @@
 import { Dialog, DialogBody, DialogHeader } from '@material-tailwind/react'
-import XIcon from '@/app/components/icons/XIcon'
+import XIcon from '@/icons/XIcon'
 export const ModalHeader = ({ children, handler, ...rest }) => {
   return (
     <DialogHeader className={`p-2`} {...rest}>

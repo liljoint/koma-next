@@ -1,13 +1,13 @@
 'use client'
 import { useState } from 'react'
-import TableList from '../../molecules/TableList/TableList'
-import allTables from '../../../resources/Tables.json'
-import ProductSelection from '../ProductList/ProductSelection'
+import TableList from '@/app/components/molecules/TableList/TableList'
+import allTables from '@/resources/Tables.json'
+import ProductSelection from '@/app/components/organisms/ProductList/ProductSelection'
 import ModalCustom, {
   ModalBody,
   ModalHeader,
-} from '../../molecules/ModalCustom/ModalCustom'
-import InitTable from '../InitTable/InitTable'
+} from '@/app/components/molecules/ModalCustom/ModalCustom'
+import InitTable from '@/app/components/organisms/InitTable/InitTable'
 
 const TableControl = () => {
   const [isOpen, setIsOpen] = useState(false)

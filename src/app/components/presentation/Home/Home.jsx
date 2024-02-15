@@ -1,8 +1,7 @@
 'use client'
+import { changeTheme, getTheme } from '@/actions/helper'
+import TableControl from '@/app/components/organisms/TableControl/TableControl'
 import { useEffect, useState } from 'react'
-import App from '../../organisms/App/App'
-import TableControl from '../../organisms/TableControl/TableControl'
-import { changeTheme, getTheme } from '@/app/actions/helper'
 
 const Home = () => {
   const currentTheme = getTheme()
@@ -12,10 +11,6 @@ const Home = () => {
     changeTheme(theme)
   }, [changeTheme])
 
-  return (
-    <App>
-      <TableControl />
-    </App>
-  )
+  return <TableControl />
 }
 export default Home
