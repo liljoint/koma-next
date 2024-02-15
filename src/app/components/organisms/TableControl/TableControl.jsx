@@ -1,23 +1,37 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TableList from '@/app/components/molecules/TableList/TableList'
-import allTables from '@/resources/Tables.json'
 import ProductSelection from '@/app/components/organisms/ProductList/ProductSelection'
 import ModalCustom, {
   ModalBody,
   ModalHeader,
 } from '@/app/components/molecules/ModalCustom/ModalCustom'
 import InitTable from '@/app/components/organisms/InitTable/InitTable'
+import getTables from '@/client/tables/tables'
+import Alert from '@/app/components/atomics/Alert/Alert'
+import { Spinner } from '@material-tailwind/react'
 
 const TableControl = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedTable, setSelectedTable] = useState(false)
-  const [tables, setTables] = useState(allTables)
+  const [isLoading, setIsLoading] = useState(false)
+  const [tables, setTables] = useState([])
 
   const handleClick = ({ name, available }) => {
     setSelectedTable({ name, available })
   }
 
+  useEffect(() => {
+    setIsLoading(true)
+    getTables()
+      .then((result) => {
+        setIsLoading(false)
+        setTables(result)
+      })
+      .catch((e) => {
+        setIsLoading(false)
+      })
+  }, [])
   const handleEnable =
     ({ name }) =>
     () => {
@@ -69,6 +83,13 @@ const TableControl = () => {
           )}
         </ModalBody>
       </ModalCustom>
+      <Alert
+        color="yellow"
+        open={isLoading}
+        onClose={() => setIsLoading(false)}
+      >
+        Cargando mesas <Spinner onClose />
+      </Alert>
     </>
   )
 }

@@ -12,10 +12,11 @@ const client = async ({
   }
   try {
     const response = await fetch(`${baseUrl}${path}`, config)
-    const data = await response.json()
+
     if (!response.ok) {
-      throw new Error(data?.error?.message || 'Error en llamada')
+      throw new Error('Error en llamada')
     }
+    const data = await response.json()
     return data
   } catch (e) {
     throw e
