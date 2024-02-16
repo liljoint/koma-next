@@ -1,18 +1,12 @@
-import client from '@/client/client'
 import tableTransform, {
   tablesTransform,
 } from '@/client/helpers/tablesTransform'
+import { strapiClient } from '../strapiClient'
 
 const getTables = async () => {
-  const { data } = await client({
-    baseUrl: process.env.NEXT_PUBLIC_STRAPI_CLIENT,
+  const { data } = await strapiClient({
     path: '/api/tables',
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_PUBLIC_BEARER}`,
-    },
   })
   const transformedData = tablesTransform(data)
   return transformedData
@@ -24,16 +18,10 @@ export const updateTable = async ({ id, available }) => {
       tableAvailable: available,
     },
   }
-  const { data } = await client({
-    baseUrl: process.env.NEXT_PUBLIC_STRAPI_CLIENT,
+  const { data } = await strapiClient({
     path: `/api/tables/${id}`,
     method: 'PUT',
     body: body,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_PUBLIC_BEARER}`,
-    },
   })
   const transformedData = tableTransform(data)
   return transformedData
