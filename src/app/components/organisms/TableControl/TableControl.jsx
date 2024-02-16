@@ -7,19 +7,15 @@ import ModalCustom, {
   ModalHeader,
 } from '@/app/components/molecules/ModalCustom/ModalCustom'
 import InitTable from '@/app/components/organisms/InitTable/InitTable'
-import getTables from '@/client/tables/tables'
+import getTables, { updateTable } from '@/client/tables/tables'
 import Alert from '@/app/components/atomics/Alert/Alert'
 import { Spinner } from '@material-tailwind/react'
 
 const TableControl = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [showTable, setShowTable] = useState(false)
   const [selectedTable, setSelectedTable] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [tables, setTables] = useState([])
-
-  const handleClick = ({ name, available }) => {
-    setSelectedTable({ name, available })
-  }
 
   useEffect(() => {
     setIsLoading(true)
@@ -32,24 +28,28 @@ const TableControl = () => {
         setIsLoading(false)
       })
   }, [])
-  const handleEnable =
-    ({ name }) =>
+  const tableAvailable =
+    ({ name, id }) =>
     () => {
-      setTables((prev) => {
-        return prev.map((pre) => {
-          if (pre.name === name) {
-            return {
-              name,
-              available: false,
-            }
-          }
-          return pre
+      updateTable({ id, available: false })
+        .then(() => {
+          setTables((prev) => {
+            return prev.map((pre) => {
+              if (pre.name === name) {
+                return {
+                  name,
+                  available: false,
+                }
+              }
+              return pre
+            })
+          })
+          setSelectedTable({ name, id, available: false })
         })
-      })
-      openHandle()
+        .catch((e) => console.log(e))
     }
-  const openHandle = () => {
-    setIsOpen(!isOpen)
+  const handleShowTable = () => {
+    setShowTable(!showTable)
   }
 
   return (
@@ -57,23 +57,23 @@ const TableControl = () => {
       <h1 className="text-text">Mesas</h1>
       <TableList
         tables={tables}
-        handleClick={({ name, available }) =>
+        tableAction={({ name, available, id }) =>
           () => {
-            openHandle()
-            handleClick({ name, available })
+            handleShowTable()
+            setSelectedTable({ name, available, id })
           }}
       />
       <ModalCustom
-        isOpen={isOpen}
-        handler={openHandle}
+        isOpen={showTable}
+        handler={handleShowTable}
         size="md"
         className={'bg-bg'}
       >
-        <ModalHeader handler={openHandle} />
+        <ModalHeader handler={handleShowTable} />
         <ModalBody>
           {selectedTable?.available ? (
             <InitTable
-              onClick={handleEnable(selectedTable)}
+              onClick={tableAvailable(selectedTable)}
               title={`Inicializar ${selectedTable?.name}`}
             />
           ) : (
@@ -88,7 +88,7 @@ const TableControl = () => {
         open={isLoading}
         onClose={() => setIsLoading(false)}
       >
-        Cargando mesas <Spinner onClose />
+        Cargando mesas <Spinner />
       </Alert>
     </>
   )
