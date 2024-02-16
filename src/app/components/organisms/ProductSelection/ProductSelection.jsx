@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
 import Products from '@/resources/Products.json'
-import NumberInput from '@/app/components/atomics/NumberInput/NumberInput'
 import Button from '@/app/components/atomics/Button/Button'
 import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
+import Input from '../../atomics/Input/Input'
 
 const ProductSelection = ({ title }) => {
   const [selectedItem, setSelectedItem] = useState(null)
@@ -52,10 +52,11 @@ const ProductSelection = ({ title }) => {
             <h1>Agregar Pedido</h1>
             <div className="flex items-center justify-between gap-5">
               {selectedItem.label}
-              <NumberInput
+              <Input
                 placeholder="Cantidad"
                 value={productQuantity}
-                onChange={setProductQuantity}
+                onChange={(e) => setProductQuantity(e.target.value)}
+                type="number"
               />
               <Button onClick={handleAddProduct}>Agregar</Button>
             </div>
