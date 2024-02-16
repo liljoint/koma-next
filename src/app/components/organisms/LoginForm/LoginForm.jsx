@@ -46,7 +46,7 @@ const LoginForm = () => {
   }
   return (
     <>
-      <h1>LogIn</h1>
+      <h1>Log In</h1>
       <div className="pt-5">
         <form
           className="flex flex-col gap-3"

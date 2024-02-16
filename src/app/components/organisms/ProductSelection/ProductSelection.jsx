@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
 import Products from '@/resources/Products.json'
-import NumberInput from '@/app/components/molecules/NumberInput/NumberInput'
+import NumberInput from '@/app/components/atomics/NumberInput/NumberInput'
 import Button from '@/app/components/atomics/Button/Button'
 import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
 

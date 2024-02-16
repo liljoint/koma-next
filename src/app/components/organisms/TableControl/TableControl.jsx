@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import TableList from '@/app/components/molecules/TableList/TableList'
-import ProductSelection from '@/app/components/organisms/ProductList/ProductSelection'
+import ProductSelection from '@/app/components/organisms/ProductSelection/ProductSelection'
 import ModalCustom, {
   ModalBody,
   ModalHeader,

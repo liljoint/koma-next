@@ -1,6 +1,6 @@
 import Body from '@/app/components/atomics/Body/Body'
 import Footer from '@/app/components/atomics/Footer/Footer'
-import Header from '@/app/components/molecules/Header/Header'
+import Header from '@/app/components/atomics/Header/Header'
 
 function App({ children }) {
   return (
