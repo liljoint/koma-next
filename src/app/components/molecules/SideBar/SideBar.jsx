@@ -50,6 +50,12 @@ const SideBar = () => {
                 HOME
               </ListItem>
             </Link>
+
+            <Link href="/order-list">
+              <ListItem className="justify-center rounded-none border-b-2 border-gray-500 p-2">
+                ORDER LIST
+              </ListItem>
+            </Link>
           </List>
         </ModalBody>
       </ModalCustom>
