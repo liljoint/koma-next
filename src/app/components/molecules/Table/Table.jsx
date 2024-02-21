@@ -12,18 +12,17 @@ const Table = ({
 }) => {
   return (
     <div className="flex min-h-[40vh] w-full min-w-max flex-col content-between justify-between">
-      <table className="table-auto text-left">
+      <table className="table-auto text-left text-text">
         <thead>
           <tr>
             {headers?.map((head) => (
               <th
                 key={head}
-                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                className="border-b border-blue-gray-100 bg-bg p-4 text-text"
               >
                 <Typography
                   variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
+                  className="font-normal leading-none text-text opacity-70"
                 >
                   {head}
                 </Typography>
@@ -42,7 +41,7 @@ const Table = ({
                   <td className={classes} key={row[field]}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="text-text"
                       className="font-normal"
                     >
                       {String(row[field])}

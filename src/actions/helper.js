@@ -4,11 +4,3 @@ export const changeTheme = (theme) => {
     localStorage?.setItem('theme', theme)
   }
 }
-
-export function getTheme() {
-  if (global.window !== undefined) {
-    return localStorage?.getItem('theme') || 'light'
-  } else {
-    return 'light'
-  }
-}

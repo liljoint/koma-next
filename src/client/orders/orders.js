@@ -1,5 +1,5 @@
-import ordersTransform from '../helpers/ordersTransform'
-import { strapiClient } from '../strapiClient'
+import ordersTransform from '@/client/helpers/ordersTransform'
+import { strapiClient } from '@/client/strapiClient'
 
 const getOrders = async () => {
   const {

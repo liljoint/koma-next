@@ -1,8 +1,9 @@
+'use client'
 import Body from '@/app/components/atomics/Body/Body'
 import Footer from '@/app/components/atomics/Footer/Footer'
 import Header from '@/app/components/atomics/Header/Header'
 
-function App({ children }) {
+function Container({ children }) {
   return (
     <div className="font-mono inline-block min-h-[100vh] w-full bg-cover text-text">
       <Header />
@@ -12,4 +13,4 @@ function App({ children }) {
   )
 }
 
-export default App
+export default Container

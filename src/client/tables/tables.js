@@ -1,7 +1,7 @@
 import tableTransform, {
   tablesTransform,
 } from '@/client/helpers/tablesTransform'
-import { strapiClient } from '../strapiClient'
+import { strapiClient } from '@/client/strapiClient'
 
 const getTables = async () => {
   const { data } = await strapiClient({

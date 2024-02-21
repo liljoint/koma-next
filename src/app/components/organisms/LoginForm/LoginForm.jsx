@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { object, string } from 'zod'
 import { formDataParser } from '@/actions/formDataParser'
 import Button from '@/app/components/atomics/Button/Button'
 import Input from '@/app/components/atomics/Input/Input'
 import { Spinner } from '@material-tailwind/react'
-import Alert from '../../atomics/Alert/Alert'
+import Alert from '@/app/components/atomics/Alert/Alert'
 import auth from '@/client/auth/auth'
+import { AppContext } from '@/app/persistance/Context'
+import { useRouter } from 'next/navigation'
 
 const LoginForm = () => {
+  const { setSession } = useContext(AppContext)
   const [formErrors, setFormErrors] = useState({})
+  const router = useRouter()
   const [alert, setAlert] = useState(false)
   const loginSchema = object({
     email: string().email({ message: 'Email invalido' }),
@@ -24,9 +28,13 @@ const LoginForm = () => {
       const result = loginSchema.parse(data)
       setAlert(true)
       const authData = await auth(result)
-      console.log('authData', authData)
+      setSession(authData)
+      localStorage.setItem('session', JSON.stringify(authData))
+      setAlert(false)
+      router.push('/')
     } catch (error) {
       setAlert(false)
+      console.log(error)
       const err = {}
       if (error?.issues) {
         error?.issues?.map((e) => {

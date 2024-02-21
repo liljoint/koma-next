@@ -3,7 +3,7 @@ import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
 import Products from '@/resources/Products.json'
 import Button from '@/app/components/atomics/Button/Button'
 import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
-import Input from '../../atomics/Input/Input'
+import Input from '@/app/components/atomics/Input/Input'
 
 const ProductSelection = ({ title }) => {
   const [selectedItem, setSelectedItem] = useState(null)

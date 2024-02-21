@@ -1,4 +1,4 @@
-import client from '../client'
+import client from '@/client/client'
 
 const auth = async ({ email, pw }) => {
   const result = await client({
@@ -10,6 +10,6 @@ const auth = async ({ email, pw }) => {
       password: pw,
     },
   })
-  console.log(result)
+  return result
 }
 export default auth
