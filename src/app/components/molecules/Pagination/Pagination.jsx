@@ -19,10 +19,10 @@ const Pagination = ({ page = 1, pageCount }) => {
   }
   console.log(page, pageCount)
   return (
-    <div className="mx-auto flex items-center gap-4">
+    <div className="m-auto flex items-center gap-4">
       <Button
         variant="text"
-        className="flex items-center gap-2 rounded-full"
+        className="flex items-center gap-2 rounded-full text-text"
         onClick={prev}
         disabled={active === 1}
       >
@@ -34,7 +34,7 @@ const Pagination = ({ page = 1, pageCount }) => {
       </Typography>
       <Button
         variant="text"
-        className="flex items-center gap-2 rounded-full"
+        className="flex items-center gap-2 rounded-full text-text"
         onClick={next}
         disabled={active === pageCount}
       >

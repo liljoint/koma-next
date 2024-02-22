@@ -11,8 +11,8 @@ const Table = ({
   pageSize,
 }) => {
   return (
-    <div className="flex min-h-[40vh] w-full min-w-max flex-col content-between justify-between">
-      <table className="table-auto text-left text-text">
+    <div className="flex min-h-[40vh] w-full flex-col content-between justify-between overflow-x-auto overflow-y-hidden">
+      <table className="text-left text-text">
         <thead>
           <tr>
             {headers?.map((head) => (

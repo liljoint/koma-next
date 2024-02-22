@@ -5,7 +5,7 @@ import Header from '@/app/components/atomics/Header/Header'
 
 function Container({ children }) {
   return (
-    <div className="font-mono inline-block min-h-[100vh] w-full bg-cover text-text">
+    <div className="font-mono h-screen w-full bg-cover text-text">
       <Header />
       <Body>{children}</Body>
       <Footer />

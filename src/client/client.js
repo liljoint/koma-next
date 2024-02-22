@@ -1,3 +1,4 @@
+'use server'
 const client = async ({
   baseUrl = '',
   path = '',

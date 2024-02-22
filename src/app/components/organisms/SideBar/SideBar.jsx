@@ -16,7 +16,6 @@ const SideBar = () => {
 
   useEffect(() => {
     if (theme !== '') {
-      console.log('effect theme', theme)
       setTheme(theme)
       changeTheme(theme)
     }
@@ -77,18 +76,20 @@ const SideBar = () => {
               </ListItem>
             </Link>
             {session ? (
-              <Link
-                href="/"
-                onClick={() => {
-                  setSession(null)
-                  handleClick()
-                }}
-                className="fixed bottom-0 right-0 inline-flex"
-              >
-                <ListItem className="justify-center rounded-none border-b-2 border-gray-500 p-2">
-                  LOGOUT
-                </ListItem>
-              </Link>
+              <div className="fixed inset-x-0 bottom-0">
+                <Link
+                  href="/"
+                  onClick={() => {
+                    setSession(null)
+                    handleClick()
+                  }}
+                  className="float-right block"
+                >
+                  <ListItem className="rounded-none border-b-2 border-gray-500">
+                    LOGOUT
+                  </ListItem>
+                </Link>
+              </div>
             ) : null}
           </List>
         </ModalBody>

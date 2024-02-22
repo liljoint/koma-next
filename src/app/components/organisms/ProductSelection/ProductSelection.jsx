@@ -48,9 +48,9 @@ const ProductSelection = ({ title }) => {
       />
       <>
         {selectedItem && (
-          <div className="p-5">
+          <div>
             <h1>Agregar Pedido</h1>
-            <div className="flex items-center justify-between gap-5">
+            <div className="flex items-center justify-between gap-3">
               {selectedItem.label}
               <Input
                 placeholder="Cantidad"
@@ -58,7 +58,7 @@ const ProductSelection = ({ title }) => {
                 onChange={(e) => setProductQuantity(e.target.value)}
                 type="number"
               />
-              <Button onClick={handleAddProduct}>Agregar</Button>
+              <Button onClick={handleAddProduct}>+</Button>
             </div>
           </div>
         )}

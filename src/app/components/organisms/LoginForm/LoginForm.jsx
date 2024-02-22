@@ -34,7 +34,6 @@ const LoginForm = () => {
       router.push('/')
     } catch (error) {
       setAlert(false)
-      console.log(error)
       const err = {}
       if (error?.issues) {
         error?.issues?.map((e) => {
