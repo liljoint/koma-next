@@ -3,7 +3,10 @@ import { Typography } from '@material-tailwind/react'
 
 const SkeletonBody = () => {
   return (
-    <div className="margin-auto w-full max-w-full animate-pulse p-10">
+    <div
+      className="margin-auto w-full max-w-full animate-pulse p-10"
+      data-testid="skeleton"
+    >
       <Typography
         as="div"
         variant="h1"

@@ -11,7 +11,10 @@ const Table = ({
   pageSize,
 }) => {
   return (
-    <div className="flex min-h-[40vh] w-full flex-col content-between justify-between overflow-x-auto overflow-y-hidden">
+    <div
+      className="flex min-h-[40vh] w-full flex-col content-between justify-between overflow-x-auto overflow-y-hidden"
+      data-testid="table"
+    >
       <table className="text-left text-text">
         <thead>
           <tr>
@@ -41,8 +44,7 @@ const Table = ({
                   <td className={classes} key={row[field]}>
                     <Typography
                       variant="small"
-                      color="text-text"
-                      className="font-normal"
+                      className="font-normal text-text"
                     >
                       {String(row[field])}
                     </Typography>
