@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@/mt'
-import '@/app/globals.css'
+import '@/globals.css'
 import Container from './components/organisms/Container/Container'
 import { Context } from './persistance/Context'
 

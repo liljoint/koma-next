@@ -2,19 +2,16 @@ import posPrinter from '@/actions/posPrinter'
 import Button from '@/app/components/atomics/Button/Button'
 
 const PrintButton = ({ content }) => {
-  const body = `<html><style>body {
-    font-size: 2rem
-  }</style><body>${content.map((c) => {
-    return `<div>${c.quantity} ${c.name}</div>`
-  })}</body></html>`
   return (
     <>
-      <form action={posPrinter}>
-        <input type="hidden" value={body} name="content" />
-        <Button type="submit">IMPRIMIR</Button>
+      <form onSubmit={posPrinter} data-testid="print-form">
+        <input type="hidden" value={content} name="content" />
+        <Button type="submit" name="printer">
+          IMPRIMIR
+        </Button>
       </form>
       <div className="hidden" id="info">
-        {body}
+        {content}
       </div>
     </>
   )

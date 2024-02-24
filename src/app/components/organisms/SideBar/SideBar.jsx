@@ -37,7 +37,7 @@ const SideBar = () => {
   return (
     <>
       <div className="justify-between">
-        <button onClick={handleOpen}>
+        <button onClick={handleOpen} data-test-id="sidebar">
           <Bars4Icon className="h-5 w-5 rounded-md fill-header text-header" />
         </button>
       </div>
@@ -59,18 +59,26 @@ const SideBar = () => {
                 Sessión iniciada como: {JSON.stringify(session?.user?.username)}
               </div>
             ) : (
-              <Link href="/login" onClick={handleClick}>
+              <Link
+                href="/login"
+                onClick={handleClick}
+                data-test-id="login-link"
+              >
                 <ListItem className="justify-center rounded-none border-b-2 border-gray-500 p-2">
                   LOGIN
                 </ListItem>
               </Link>
             )}
-            <Link href="/" onClick={handleClick}>
+            <Link href="/" onClick={handleClick} data-test-id="home-link">
               <ListItem className="justify-center rounded-none border-b-2 border-gray-500 p-2">
                 HOME
               </ListItem>
             </Link>
-            <Link href="/order-list" onClick={handleClick}>
+            <Link
+              href="/order-list"
+              onClick={handleClick}
+              data-test-id="orderlist-link"
+            >
               <ListItem className="justify-center rounded-none border-b-2 border-gray-500 p-2">
                 ORDER LIST
               </ListItem>
@@ -84,6 +92,7 @@ const SideBar = () => {
                     handleClick()
                   }}
                   className="float-right block"
+                  data-test-id="logout-link"
                 >
                   <ListItem className="rounded-none border-b-2 border-gray-500">
                     LOGOUT

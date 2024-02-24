@@ -7,17 +7,12 @@ const Pagination = ({ page = 1, pageCount }) => {
   const [active, setActive] = useState(page)
 
   const next = () => {
-    if (active === 5) return
-
     setActive(active + 1)
   }
 
   const prev = () => {
-    if (active === 1) return
-
     setActive(active - 1)
   }
-  console.log(page, pageCount)
   return (
     <div className="m-auto flex items-center gap-4">
       <Button

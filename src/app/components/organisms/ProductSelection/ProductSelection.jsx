@@ -70,7 +70,7 @@ const ProductSelection = ({ title }) => {
                 {product.name} {product.quantity}
               </div>
             ))}
-            <PrintButton content={products} />
+            <PrintButton content={voucherTemplate(products)} />
           </div>
         )}
       </>
