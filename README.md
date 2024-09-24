@@ -19,6 +19,12 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Basic ENV
+~~~
+NEXT_PUBLIC_STRAPI_CLIENT=http://localhost:1337
+NEXT_PUBLIC_PUBLIC_BEARER=b44d58342af7791183b68a6739f3ff8d9cf26ce33fd4c2d411b4acfda2b619ef06fab6284da56fc56eeb0daddce8f107691ff9434fcf42b6691a9454c9ce0c00ea0f9f5cb7c854067ae4056b5327a2d593de2d98cf57e37efd22d7559142bcba79d9e823eaeaec23aea1a219b5456960c56d4aebbf528262fb80ba9222f34257
+~~~
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

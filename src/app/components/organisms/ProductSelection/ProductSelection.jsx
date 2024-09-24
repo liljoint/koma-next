@@ -1,19 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
-import Products from '@/resources/Products.json'
+//import Products from '@/resources/Products.json'
 import Button from '@/app/components/atomics/Button/Button'
 import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
 import Input from '@/app/components/atomics/Input/Input'
+import Alert from '../../atomics/Alert/Alert'
+import { Spinner } from '@material-tailwind/react'
+import { voucherTemplate } from '@/actions/voucherTemplate'
+import { getActiveProducts } from '@/client/products/products'
 
 const ProductSelection = ({ title }) => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [products, setProducts] = useState([])
   const [productQuantity, setProductQuantity] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const productList = Products.map((product) => ({
-    value: product.id,
-    label: product.productName,
-  }))
+  const [productsList, setProductsList] = useState([])
+  useEffect(() => {
+    setIsLoading(true)
+    getActiveProducts()
+      .then((result) => {
+        console.log(result)
+        setIsLoading(false)
+        setProductsList(result?.map((product) => ({
+          value: product.id,
+          label: product.name,
+        })))
+      })
+      .catch((e) => {
+        setIsLoading(false)
+      })
+  }, [])
   const handleOnChange = (data) => {
     setSelectedItem(data)
   }
@@ -26,14 +43,14 @@ const ProductSelection = ({ title }) => {
     }
     products.length > 0
       ? setProducts((prev) => {
-          const item = prev.findIndex((p) => p.id === productObject.id)
-          if (item > -1) {
-            prev[item] = productObject
-          } else {
-            prev.push(productObject)
-          }
-          return [...prev]
-        })
+        const item = prev.findIndex((p) => p.id === productObject.id)
+        if (item > -1) {
+          prev[item] = productObject
+        } else {
+          prev.push(productObject)
+        }
+        return [...prev]
+      })
       : setProducts([productObject])
     setSelectedItem(null)
   }
@@ -41,7 +58,7 @@ const ProductSelection = ({ title }) => {
     <>
       <h1>{title}</h1>
       <Autocomplete
-        options={productList}
+        options={productsList}
         onChange={handleOnChange}
         value={selectedItem?.label || ''}
         placeholder="Seleccione producto"
@@ -74,6 +91,13 @@ const ProductSelection = ({ title }) => {
           </div>
         )}
       </>
+      <Alert
+        color="yellow"
+        open={isLoading}
+        onClose={() => setIsLoading(false)}
+      >
+        Cargando productos <Spinner />
+      </Alert>
     </>
   )
 }
