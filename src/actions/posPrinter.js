@@ -1,26 +1,33 @@
-"use server";
-import escpos from "escpos";
-import network from "escpos-network";
-import nodeHtmlToImage from "node-html-to-image";
+'use server'
+import nodeHtmlToImage from 'node-html-to-image'
+import { PrinterTypes, ThermalPrinter } from 'node-thermal-printer'
+import fs from 'fs'
+
 const posPrinter = async (content) => {
-  console.log(content.get("content"));
+  await nodeHtmlToImage({
+    html: content.get('content'),
+    output: './printed.png',
+    type: 'png',
+  })
+  let printer = new ThermalPrinter({
+    type: PrinterTypes.EPSON,
+    interface: 'tcp://192.168.1.155:9100',
+  })
 
-  nodeHtmlToImage({
-    output: "./image.png",
-    html: content.get("content"),
-  }).then(() => {
-    console.log("The image was created successfully!");
-    const networkDevice = new network("192.168.1.155", 9100);
-    const networkPrinter = new escpos.Printer(networkDevice);
-    console.log("!printed");
-    networkDevice.open(function (error) {
-      escpos.Image.load("image.png", (image) =>
-        networkPrinter.image(image, "S24").then(() => {
-          networkPrinter.newLine().newLine().newLine().newLine().cut().close();
-        })
-      );
-    });
-  });
-};
+  let isConnected = await printer.isPrinterConnected()
 
-export default posPrinter;
+  if (isConnected) {
+    printer.beep()
+    await printer.printImage('./printed.png')
+    printer.cut()
+    try {
+      printer.execute()
+      console.log('printed!')
+      fs.unlinkSync('./printed.png')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export default posPrinter

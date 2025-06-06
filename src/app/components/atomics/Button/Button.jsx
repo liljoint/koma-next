@@ -1,4 +1,4 @@
-import { Button as UiButton } from '@material-tailwind/react'
+import { Button as UiButton } from '@/mt'
 
 const Button = ({ ...rest }) => {
   return <UiButton {...rest} />

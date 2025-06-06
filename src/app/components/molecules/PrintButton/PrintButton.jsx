@@ -1,12 +1,13 @@
+'use client'
 import posPrinter from '@/actions/posPrinter'
 import Button from '@/app/components/atomics/Button/Button'
 
 const PrintButton = ({ content }) => {
   return (
     <>
-      <form onSubmit={posPrinter} data-testid="print-form">
+      <form action={posPrinter} data-testid="print-form">
         <input type="hidden" value={content} name="content" />
-        <Button type="submit" name="printer">
+        <Button type="submit" name="printer" data-testid="print-button">
           IMPRIMIR
         </Button>
       </form>

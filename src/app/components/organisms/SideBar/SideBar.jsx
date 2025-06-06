@@ -1,6 +1,6 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
-import { List, ListItem } from '@material-tailwind/react'
+import { List, ListItem } from '@/mt'
 import { Bars4Icon, SunIcon } from '@heroicons/react/24/outline'
 import ModalCustom, {
   ModalBody,
@@ -19,7 +19,7 @@ const SideBar = () => {
       setTheme(theme)
       changeTheme(theme)
     }
-  }, [theme])
+  }, [theme, setTheme])
   const handleOpen = () => {
     setIsOpen(!isOpen)
   }

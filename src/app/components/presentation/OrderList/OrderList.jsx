@@ -1,9 +1,9 @@
 'use client'
+import { useEffect, useState } from 'react'
 import SkeletonBody from '@/app/components/molecules/SkeletonBody/SkeletonBody'
 import getOrders from '@/client/orders/orders'
-import { useEffect, useState } from 'react'
 import Alert from '@/app/components/atomics/Alert/Alert'
-import { Spinner } from '@material-tailwind/react'
+import { Spinner } from '@/mt'
 import Table from '@/app/components/molecules/Table/Table'
 
 const headers = [

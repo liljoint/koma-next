@@ -1,4 +1,4 @@
-import { Input as UiInput } from '@material-tailwind/react'
+import { Input as UiInput } from '@/mt'
 
 const Input = ({ ...rest }) => {
   return <UiInput {...rest} />

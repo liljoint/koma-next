@@ -7,15 +7,21 @@ import ModalCustom, {
   ModalHeader,
 } from '@/app/components/molecules/ModalCustom/ModalCustom'
 import InitTable from '@/app/components/organisms/InitTable/InitTable'
-import getTables, { updateTable } from '@/client/tables/tables'
+import getTables, {
+  createAndOpenTable,
+  updateProductTable,
+  updateTable,
+} from '@/client/tables/tables'
 import Alert from '@/app/components/atomics/Alert/Alert'
-import { Spinner } from '@material-tailwind/react'
+import { Spinner } from '@/mt'
+import { createOrder, updateProductOrder } from '@/client/orders/orders'
+import tableTransform from '@/client/helpers/tablesTransform'
 
 const TableControl = () => {
   const [showTable, setShowTable] = useState(false)
   const [selectedTable, setSelectedTable] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [tables, setTables] = useState([])
+  const [tables, setTables] = useState()
 
   useEffect(() => {
     setIsLoading(true)
@@ -28,50 +34,62 @@ const TableControl = () => {
         setIsLoading(false)
       })
   }, [])
-  const tableAvailable =
-    ({ name, id }) =>
-    () => {
-      updateTable({ id, available: false })
-        .then(() => {
-          setTables((prev) => {
-            return prev.map((pre) => {
-              if (pre.name === name) {
-                return {
-                  name,
-                  available: false,
-                }
+  const tableAvailable = (table) => () => {
+    createAndOpenTable(table)
+      .then(() => {
+        setTables((prev) => {
+          return prev.map((pre) => {
+            if (pre.name === table.name) {
+              return {
+                ...pre,
+                name: table.name,
+                tableAvailable: false,
               }
-              return pre
-            })
+            }
+            return pre
           })
-          setSelectedTable({ name, id, available: false })
         })
-        .catch((e) => console.log(e))
-    }
+        setSelectedTable({ ...table, tableAvailable: false })
+      })
+      .catch((e) => console.log(e))
+  }
   const handleShowTable = () => {
     setShowTable(!showTable)
   }
 
+  const handleCreateOrder = (products) => {
+    console.log(JSON.stringify(products))
+    // createOrder()
+    setShowTable(!showTable)
+  }
+
+  const productSelection = (product) => {
+    const table = selectedTable
+    updateProductOrder(table, product)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((e) => console.log(e))
+  }
   return (
     <>
       <h1 className="text-text">Mesas</h1>
       <TableList
         tables={tables}
-        tableAction={({ name, available, id }) =>
-          () => {
-            handleShowTable()
-            setSelectedTable({ name, available, id })
-          }}
+        tableAction={(table) => () => {
+          handleShowTable()
+          setSelectedTable(table)
+        }}
       />
       <ModalCustom
         isOpen={showTable}
         handler={handleShowTable}
         size="md"
-        className={'bg-bg'}
+        className={'border-2 border-gray-500 bg-bg'}
       >
         <ModalHeader handler={handleShowTable} />
         <ModalBody>
-          {selectedTable?.available ? (
+          {selectedTable?.tableAvailable ? (
             <InitTable
               onClick={tableAvailable(selectedTable)}
               title={`Inicializar ${selectedTable?.name}`}
@@ -79,6 +97,8 @@ const TableControl = () => {
           ) : (
             <ProductSelection
               title={`Agregar productos: ${selectedTable?.name}`}
+              parentAction={productSelection}
+              table={selectedTable}
             />
           )}
         </ModalBody>

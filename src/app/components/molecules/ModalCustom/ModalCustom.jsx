@@ -1,4 +1,4 @@
-import { Dialog, DialogBody, DialogHeader } from '@material-tailwind/react'
+import { Dialog, DialogBody, DialogHeader } from '@/mt'
 import XIcon from '@/icons/XIcon'
 export const ModalHeader = ({ children, handler, ...rest }) => {
   return (
@@ -8,7 +8,7 @@ export const ModalHeader = ({ children, handler, ...rest }) => {
       >
         {children}
         <div className="cursor-pointer" onClick={handler}>
-          <XIcon className="text-text h-5 w-5 rounded-md" />
+          <XIcon className="h-5 w-5 rounded-md text-text" />
         </div>
       </div>
     </DialogHeader>

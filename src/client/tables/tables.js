@@ -12,10 +12,10 @@ const getTables = async () => {
   return transformedData
 }
 
-export const updateTable = async ({ id, available }) => {
+export const updateTable = async ({ id, tableAvailable }) => {
   const body = {
     data: {
-      tableAvailable: available,
+      tableAvailable,
     },
   }
   const { data } = await strapiClient({
@@ -26,4 +26,26 @@ export const updateTable = async ({ id, available }) => {
   const transformedData = tableTransform(data)
   return transformedData
 }
+
+export const createAndOpenTable = async ({
+  id,
+  tableAvailable,
+  documentId,
+}) => {
+  const body = {
+    data: {
+      tableAvailable,
+      tableId: id,
+      documentId,
+    },
+  }
+  const table = await strapiClient({
+    path: `/api/tables/create-and-open`,
+    method: 'POST',
+    body: body,
+  })
+  const transformedData = tableTransform(table)
+  return transformedData
+}
+
 export default getTables

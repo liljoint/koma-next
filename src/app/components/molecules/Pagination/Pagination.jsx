@@ -1,7 +1,7 @@
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Button from '@/app/components/atomics/Button/Button'
 import { useState } from 'react'
-import { Typography } from '@material-tailwind/react'
+import { Typography } from '@/mt'
 
 const Pagination = ({ page = 1, pageCount }) => {
   const [active, setActive] = useState(page)

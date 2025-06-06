@@ -9,12 +9,12 @@ describe('Molecules - TableList', () => {
       {
         id: 1,
         name: 'Mesa 1',
-        available: true,
+        tableAvailable: true,
       },
       {
         id: 2,
         name: 'Mesa 2',
-        available: false,
+        tableAvailable: false,
       },
     ]
     const action = jest.fn()

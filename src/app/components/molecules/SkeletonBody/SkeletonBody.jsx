@@ -1,5 +1,5 @@
 'use client'
-import { Typography } from '@material-tailwind/react'
+import { Typography } from '@/mt'
 
 const SkeletonBody = () => {
   return (

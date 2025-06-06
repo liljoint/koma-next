@@ -1,13 +1,17 @@
 import '@testing-library/jest-dom'
-import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
 import { fireEvent, render, screen } from '@testing-library/react'
-import posPrinter from '@/actions/posPrinter'
+
+import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
+import posPrinter from '../../../src/actions/posPrinter'
 jest.mock('../../../src/actions/posPrinter')
 describe('Molecules - PrintButton', () => {
-  test('Rendered PrintButton Unable', () => {
-    posPrinter.mockImplementationOnce(() => {
+  beforeEach(() => {
+    posPrinter.mockImplementation(() => {
+      console.log('AAAAAAAAAAAAAAAAAAAAAAA')
       return
     })
+  })
+  test('Rendered PrintButton Unable', async () => {
     render(<PrintButton content="contenido" />)
 
     const heading = screen.getByTestId('print-form')
