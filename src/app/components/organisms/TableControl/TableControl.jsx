@@ -96,7 +96,7 @@ const TableControl = () => {
             />
           ) : (
             <ProductSelection
-              title={`Agregar productos: ${selectedTable?.name}`}
+              title={`${selectedTable?.name}`}
               parentAction={productSelection}
               table={selectedTable}
             />

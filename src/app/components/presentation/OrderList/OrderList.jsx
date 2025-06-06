@@ -11,7 +11,7 @@ const headers = [
   'Completado',
   'Pago recibido',
   'Propina',
-  'Ponto total',
+  'Monto total',
   '',
 ]
 

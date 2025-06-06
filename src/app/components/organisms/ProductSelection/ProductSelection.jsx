@@ -6,9 +6,9 @@ import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
 import Input from '@/app/components/atomics/Input/Input'
 import Alert from '../../atomics/Alert/Alert'
 import { Spinner } from '@/mt'
-import { voucherTemplate } from '@/actions/voucherTemplate'
 import { getActiveProducts } from '@/client/products/products'
 import { getCurrentOrder } from '@/client/orders/orders'
+import CurrentOrder from '@/app/components/organisms/CurrentOrder/CurrentOrder'
 
 const ProductSelection = ({ title, table, parentAction = () => {} }) => {
   const [selectedItem, setSelectedItem] = useState(null)
@@ -68,15 +68,18 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
     parentAction(products)
   }
   return (
-    <>
+    <div className="flex flex-col gap-6">
       <h1>{title}</h1>
-      {JSON.stringify(currentOrder?.orders)}
-      <Autocomplete
-        options={productsList}
-        onChange={handleOnChange}
-        value={selectedItem?.label || ''}
-        placeholder="Seleccione producto"
-      />
+      <CurrentOrder orders={currentOrder?.orders} />
+      <div>
+        <div>Agregar productos:</div>
+        <Autocomplete
+          options={productsList}
+          onChange={handleOnChange}
+          value={selectedItem?.label || ''}
+          placeholder="Seleccione producto"
+        />
+      </div>
       <>
         {selectedItem && (
           <div>
@@ -101,7 +104,7 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
                 {product.name} {product.quantity}
               </div>
             ))}
-            <PrintButton content={voucherTemplate(products)} />
+            <PrintButton content={JSON.stringify(products)} />
             <Button onClick={handleUpdateOrder} variant="filled">
               Pedir
             </Button>
@@ -115,7 +118,7 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
       >
         Cargando productos <Spinner />
       </Alert>
-    </>
+    </div>
   )
 }
 
