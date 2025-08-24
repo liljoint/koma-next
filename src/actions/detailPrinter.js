@@ -3,13 +3,20 @@ import nodeHtmlToImage from 'node-html-to-image'
 import { PrinterTypes, ThermalPrinter } from 'node-thermal-printer'
 import fs from 'fs'
 
-const posPrinter = async (content) => {
+const detailPrinter = async (content) => {
   try {
-    const body = await fs.readFileSync('./src/templates/commands.hbs', 'utf-8')
+    const body = await fs.readFileSync('./src/templates/detail.hbs', 'utf-8')
+    const orderInfo = JSON.parse(content.get('content'))
+    console.log(orderInfo)
     await nodeHtmlToImage({
       html: body,
-      content: { products: JSON.parse(content.get('content')) },
+      content: { ...orderInfo },
       output: './printed.png',
+      handlebarsHelpers: {
+        add: (a, b) => (a + b).toLocaleString('es-CL'),
+        format: (n) => n.toLocaleString('es-CL'),
+        short: (s) => s.substring(0, 15),
+      },
       type: 'png',
     })
     let printer = new ThermalPrinter({
@@ -33,4 +40,4 @@ const posPrinter = async (content) => {
   }
 }
 
-export default posPrinter
+export default detailPrinter

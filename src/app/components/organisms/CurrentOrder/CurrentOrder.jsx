@@ -23,7 +23,7 @@ const CurrentOrder = ({ orders }) => {
           {orders?.map(({ product, quantity, unitPrice }) => {
             return (
               <>
-                <div>{product.productName}</div>
+                <div>{product?.productName}</div>
                 <div>{quantity}</div>
                 <div>$ {Number(unitPrice).toLocaleString('es-CL')}</div>
 

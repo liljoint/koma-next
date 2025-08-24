@@ -1,24 +1,22 @@
 export const ordersTransform = (orders) => {
   return orders?.map((order) => orderTransform(order))
 }
-export const orderTransform = ({ id, attributes }) => {
+export const orderTransform = ({ id, ...all }) => {
   return {
     id: id,
-    isCompleted: attributes.isCompleted,
-    payment: attributes.payment,
-    tip: attributes.tip,
-    totalAmount: attributes.totalAmount,
-    items: orderItemsTransform(attributes.orders.data),
+    isCompleted: all.isCompleted,
+    table: all.table.tableName,
+    items: orderItemsTransform(all.orders),
   }
 }
 
-export const orderItemTransform = ({ id, attributes }) => {
+export const orderItemTransform = ({ id, ...all }) => {
   return {
     id,
-    totalPrice: attributes.totalPrice,
-    unitPrice: attributes.unitPrice,
-    quantity: attributes.quantity,
-    observation: attributes.observation,
+    totalPrice: all.totalPrice,
+    unitPrice: all.unitPrice,
+    quantity: all.quantity,
+    observation: all.observation,
   }
 }
 

@@ -3,9 +3,9 @@ import tableTransform, {
 } from '@/client/helpers/tablesTransform'
 import { strapiClient } from '@/client/strapiClient'
 
-const getTables = async () => {
+const getTables = async (url) => {
   const { data } = await strapiClient({
-    path: '/api/tables',
+    path: url,
     method: 'GET',
   })
   const transformedData = tablesTransform(data)

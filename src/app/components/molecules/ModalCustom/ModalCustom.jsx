@@ -32,7 +32,7 @@ const ModalCustom = ({
   return (
     <Dialog
       open={isOpen}
-      className={` bg-bg p-1 ${className}`}
+      className={`border-2 border-red-100 bg-bg p-1 ${className}`}
       handler={handler}
       dismiss={{
         outsidePress: false,

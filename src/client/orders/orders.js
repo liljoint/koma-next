@@ -6,20 +6,19 @@ const getOrders = async () => {
     data,
     meta: { pagination },
   } = await strapiClient({
-    path: '/api/request-orders?populate=*',
+    path: '/api/request-orders?filters[isCompleted]=false&sort[0]=updatedAt:desc&populate=*',
     method: 'GET',
   })
   const transformData = ordersTransform(data)
   return { data: transformData, pagination }
 }
 
-export const getCurrentOrder = async (table) => {
+export const getCurrentOrder = (table) => async (url) => {
   const data = await strapiClient({
-    path: '/api/request-order/get-current-request-order',
+    path: url,
     method: 'POST',
     body: table,
   })
-  console.log(data)
   return data
 }
 
@@ -44,7 +43,6 @@ export const updateProductOrder = async (table, products) => {
     method: 'POST',
     body: body,
   })
-  const transformedData = tableTransform(result)
-  return transformedData
+  return result
 }
 export default getOrders

@@ -1,6 +1,7 @@
 'use client'
 import { Typography } from '@/mt'
 import Pagination from '@/app/components/molecules/Pagination/Pagination'
+import Button from '../../atomics/Button/Button'
 
 const Table = ({
   headers = [],
@@ -51,15 +52,7 @@ const Table = ({
                   </td>
                 ))}
                 <td className={classes}>
-                  <Typography
-                    as="a"
-                    href="#"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium"
-                  >
-                    Edit
-                  </Typography>
+                  <Button>Edit</Button>
                 </td>
               </tr>
             )

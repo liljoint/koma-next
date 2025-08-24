@@ -1,0 +1,39 @@
+<html>
+  <body>
+    <div style='width: 530px; '>
+      <table width='100%' style='font-size: 2.2rem;'>
+        <tr><th colspan='3'>{{table.tableName}}</th></tr>
+        <tr><td colspan='3'>&nbsp;</td></tr>
+        <tr><td align='center'>Producto</td><td align='center'>Cantidad</td><td
+            align='center'
+          >Valor</td></tr>
+        <tbody>
+          {{#each orders}}<tr>
+              <td>{{short product.productName}}</td>
+              <td>{{quantity}}</td>
+              <td align='right'>$ {{format totalPrice}}</td>
+            </tr>{{/each}}
+          <tr>
+            <td colspan='3'>&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td colspan='2'>Sub Total:</td><td align='right'>$
+              {{format totalAmount}}</td>
+          </tr>
+          <tr>
+            <td colspan='2'>Propina Sugerida (10%):</td>
+            <td align='right'>$ {{format tip}}</td>
+          </tr>
+          <tr>
+            <td colspan='3'>&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan='2'>Total a pagar:</td><td align='right'>$
+              {{add totalAmount tip}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

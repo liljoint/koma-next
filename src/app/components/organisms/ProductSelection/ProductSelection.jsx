@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
 //import Products from '@/resources/Products.json'
 import Button from '@/app/components/atomics/Button/Button'
@@ -6,40 +6,27 @@ import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
 import Input from '@/app/components/atomics/Input/Input'
 import Alert from '../../atomics/Alert/Alert'
 import { Spinner } from '@/mt'
-import { getActiveProducts } from '@/client/products/products'
-import { getCurrentOrder } from '@/client/orders/orders'
+import { getCurrentOrder, updateProductOrder } from '@/client/orders/orders'
 import CurrentOrder from '@/app/components/organisms/CurrentOrder/CurrentOrder'
+import useSWR from 'swr'
+import PrintDetailButton from '../../molecules/PrintButton/PrintDetailButton'
 
-const ProductSelection = ({ title, table, parentAction = () => {} }) => {
+const ProductSelection = ({ title, table, productsList }) => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [products, setProducts] = useState([])
   const [productQuantity, setProductQuantity] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [currentOrder, setCurrentOrder] = useState({})
 
-  const [productsList, setProductsList] = useState([])
-  useEffect(() => {
-    setIsLoading(true)
-    getActiveProducts()
-      .then((result) => {
-        setIsLoading(false)
-        setProductsList(
-          result?.map((product) => ({
-            value: product.id,
-            label: product.name,
-            ...product,
-          }))
-        )
-      })
-      .catch((e) => {
-        setIsLoading(false)
-      })
+  const [loadingUpdateProduct, setLoadingUpdateProduct] = useState(false)
+
+  const {
+    data: currentOrder,
+    isLoading,
+    mutate,
+  } = useSWR(
+    [`/api/request-order/get-current-request-order?tableid=${table.id}`],
     getCurrentOrder(table)
-      .then((currentOrder) => {
-        setCurrentOrder(currentOrder)
-      })
-      .catch((e) => {})
-  }, [table])
+  )
+
   const handleOnChange = (data) => {
     setSelectedItem(data)
   }
@@ -65,12 +52,19 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
     setSelectedItem(null)
   }
   const handleUpdateOrder = () => {
-    parentAction(products)
+    setLoadingUpdateProduct(true)
+    updateProductOrder(table, products)
+      .then((res) => {
+        mutate(res)
+        setProducts([])
+        setLoadingUpdateProduct(false)
+      })
+      .catch((e) => console.log(e))
   }
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex w-full flex-col gap-5">
       <h1>{title}</h1>
-      <CurrentOrder orders={currentOrder?.orders} />
+      {!isLoading ? <CurrentOrder orders={currentOrder?.orders} /> : null}
       <div>
         <div>Agregar productos:</div>
         <Autocomplete
@@ -79,6 +73,14 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
           value={selectedItem?.label || ''}
           placeholder="Seleccione producto"
         />
+        <div>
+          <PrintDetailButton
+            content={JSON.stringify({
+              ...currentOrder,
+              tip: currentOrder?.totalAmount * 0.1,
+            })}
+          />
+        </div>
       </div>
       <>
         {selectedItem && (
@@ -91,6 +93,7 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
                 value={productQuantity}
                 onChange={(e) => setProductQuantity(e.target.value)}
                 type="number"
+                min="1"
               />
               <Button onClick={handleAddProduct}>+</Button>
             </div>
@@ -104,10 +107,12 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
                 {product.name} {product.quantity}
               </div>
             ))}
-            <PrintButton content={JSON.stringify(products)} />
-            <Button onClick={handleUpdateOrder} variant="filled">
-              Pedir
-            </Button>
+            <div className="flex gap-3">
+              <PrintButton content={JSON.stringify(products)} />
+              <Button onClick={handleUpdateOrder} variant="filled">
+                Pedir
+              </Button>
+            </div>
           </div>
         )}
       </>
@@ -117,6 +122,13 @@ const ProductSelection = ({ title, table, parentAction = () => {} }) => {
         onClose={() => setIsLoading(false)}
       >
         Cargando productos <Spinner />
+      </Alert>
+      <Alert
+        color="blue"
+        open={loadingUpdateProduct}
+        onClose={() => setLoadingUpdateProduct(false)}
+      >
+        Actualizando producto <Spinner />
       </Alert>
     </div>
   )

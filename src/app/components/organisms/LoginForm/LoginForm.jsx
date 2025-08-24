@@ -63,7 +63,6 @@ const LoginForm = () => {
           <div className="">
             <Input
               name="email"
-              placeholder="Email"
               color="green"
               error={formErrors['email'] ? true : false}
               label={formErrors['email'] ? formErrors['email'] : 'Email'}
@@ -74,7 +73,6 @@ const LoginForm = () => {
             <Input
               type="password"
               name="pw"
-              placeholder="Contraseña"
               error={formErrors['pw'] ? true : false}
               label={formErrors['pw'] ? formErrors['pw'] : 'Contraseña'}
               onChange={onChange}

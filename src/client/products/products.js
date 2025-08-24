@@ -1,4 +1,3 @@
-
 import { strapiClient } from '@/client/strapiClient'
 import { productsTransform } from '../helpers/productsTransform'
 
@@ -8,17 +7,19 @@ export const getAllProducts = async () => {
     method: 'GET',
   })
   const transformedData = productsTransform(data)
-  console.log(transformedData)
   return transformedData
 }
-export const getActiveProducts = async () => {
+export const getActiveProducts = async (url) => {
   const { data } = await strapiClient({
-    path: '/api/products?pagination[limit]=1000&filters[productAvailable][$eq]=true',
+    path: url,
     method: 'GET',
   })
   const transformedData = productsTransform(data)
-  console.log(transformedData)
-  return transformedData
+  return transformedData?.map((product) => ({
+    value: product.id,
+    label: product.name,
+    ...product,
+  }))
 }
 
 export default getAllProducts

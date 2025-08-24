@@ -6,16 +6,9 @@ import Alert from '@/app/components/atomics/Alert/Alert'
 import { Spinner } from '@/mt'
 import Table from '@/app/components/molecules/Table/Table'
 
-const headers = [
-  'id',
-  'Completado',
-  'Pago recibido',
-  'Propina',
-  'Monto total',
-  '',
-]
+const headers = ['id', 'Completado', 'Mesa', '']
 
-const displayParams = ['id', 'isCompleted', 'payment', 'tip', 'totalAmount']
+const displayParams = ['id', 'isCompleted', 'table']
 const OrderList = () => {
   const [orders, setOrders] = useState([])
   const [pagination, setPagination] = useState({
@@ -38,7 +31,7 @@ const OrderList = () => {
   }, [])
   return (
     <>
-      <h1>Order List</h1>
+      <h1>Pedidos Activos</h1>
       {orders && orders.length > 0 ? (
         <Table
           page={pagination.page}
@@ -49,7 +42,7 @@ const OrderList = () => {
           displayParams={displayParams}
         />
       ) : (
-        <SkeletonBody />
+        'NO hay ordenes disponibles'
       )}
       <Alert color="blue" open={isLoading}>
         Cargando pedidos <Spinner className="h-5 w-5" />

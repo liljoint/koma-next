@@ -1,5 +1,6 @@
 export const tablesTransform = (tables) => {
-  return tables?.map((table) => tableTransform(table))
+  const transformedTables = tables?.map((table) => tableTransform(table))
+  return transformedTables.sort((a, b) => a.name.localeCompare(b.name))
 }
 export const tableTransform = ({
   id,
