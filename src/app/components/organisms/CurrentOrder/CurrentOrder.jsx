@@ -20,19 +20,21 @@ const CurrentOrder = ({ orders }) => {
           <div className="font-bold">Cantidad</div>
           <div className="font-bold">Unitario</div>
           <div className="font-bold">Total producto</div>
-          {orders?.map(({ product, quantity, unitPrice }) => {
-            return (
-              <>
-                <div>{product?.productName}</div>
-                <div>{quantity}</div>
-                <div>$ {Number(unitPrice).toLocaleString('es-CL')}</div>
+          <div className="col-span-4 flex flex-col ">
+            {orders?.map(({ product, quantity, unitPrice }, index) => {
+              return (
+                <div key={index} className="grid grid-cols-4">
+                  <div>{product?.productName}</div>
+                  <div>{quantity}</div>
+                  <div>$ {Number(unitPrice).toLocaleString('es-CL')}</div>
 
-                <div>
-                  $ {Number(quantity * unitPrice).toLocaleString('es-CL')}
+                  <div>
+                    $ {Number(quantity * unitPrice).toLocaleString('es-CL')}
+                  </div>
                 </div>
-              </>
-            )
-          })}
+              )
+            })}
+          </div>
           <div className="col-span-2 mt-5 flex justify-between">
             <div className="font-bold">Total Pedido:</div>
             <div className="">$ {total?.toLocaleString('es-CL')}</div>

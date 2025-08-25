@@ -10,12 +10,14 @@ import { getCurrentOrder, updateProductOrder } from '@/client/orders/orders'
 import CurrentOrder from '@/app/components/organisms/CurrentOrder/CurrentOrder'
 import useSWR from 'swr'
 import PrintDetailButton from '../../molecules/PrintButton/PrintDetailButton'
+import { WaiterPassword } from '../WaiterPassword/WaiterPassword'
 
 const ProductSelection = ({ title, table, productsList }) => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [products, setProducts] = useState([])
   const [productQuantity, setProductQuantity] = useState(1)
-
+  const [pass, setPass] = useState('')
+  const [isValid, setValid] = useState(false)
   const [loadingUpdateProduct, setLoadingUpdateProduct] = useState(false)
 
   const {
@@ -61,7 +63,7 @@ const ProductSelection = ({ title, table, productsList }) => {
       })
       .catch((e) => console.log(e))
   }
-  return (
+  return isValid ? (
     <div className="flex w-full flex-col gap-5">
       <h1>{title}</h1>
       {!isLoading ? <CurrentOrder orders={currentOrder?.orders} /> : null}
@@ -131,6 +133,12 @@ const ProductSelection = ({ title, table, productsList }) => {
         Actualizando producto <Spinner />
       </Alert>
     </div>
+  ) : (
+    <WaiterPassword
+      field={pass}
+      fieldSetter={setPass}
+      setValid={setValid}
+    ></WaiterPassword>
   )
 }
 
