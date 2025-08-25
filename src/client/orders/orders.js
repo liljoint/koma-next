@@ -1,5 +1,6 @@
 import ordersTransform from '@/client/helpers/ordersTransform'
 import { strapiClient } from '@/client/strapiClient'
+import { currentOrderTransform } from '../helpers/currentOrderTransform'
 
 const getOrders = async () => {
   const {
@@ -19,7 +20,7 @@ export const getCurrentOrder = (table) => async (url) => {
     method: 'POST',
     body: table,
   })
-  return data
+  return currentOrderTransform(data)
 }
 
 export const createOrder = async (order) => {
@@ -43,6 +44,6 @@ export const updateProductOrder = async (table, products) => {
     method: 'POST',
     body: body,
   })
-  return result
+  return currentOrderTransform(result)
 }
 export default getOrders

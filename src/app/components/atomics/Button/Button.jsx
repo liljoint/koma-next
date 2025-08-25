@@ -1,6 +1,6 @@
 import { Button as UiButton } from '@/mt'
 
-const Button = ({ ...rest }) => {
-  return <UiButton {...rest} />
+const Button = ({ onClick, ...rest }) => {
+  return <UiButton onClick={onClick} {...rest} />
 }
 export default Button

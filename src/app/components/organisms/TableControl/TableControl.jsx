@@ -22,7 +22,7 @@ const TableControl = () => {
 
   const { data: tables, isLoading, mutate } = useSWR('/api/tables', getTables)
   const { data: productsList } = useSWR(
-    '/api/products?pagination[limit]=1000&filters[productAvailable][$eq]=true',
+    '/api/products?pagination[limit]=1000&filters[productAvailable][$eq]=true&populate=*',
     getActiveProducts
   )
   const tableAvailable = (table) => () => {

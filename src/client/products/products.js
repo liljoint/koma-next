@@ -15,6 +15,7 @@ export const getActiveProducts = async (url) => {
     method: 'GET',
   })
   const transformedData = productsTransform(data)
+  console.log(transformedData)
   return transformedData?.map((product) => ({
     value: product.id,
     label: product.name,

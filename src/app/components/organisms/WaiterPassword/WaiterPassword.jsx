@@ -4,13 +4,19 @@ import Input from '../../atomics/Input/Input'
 import { validateUser } from '@/client/user/users'
 import Label from '../../atomics/Label/Label'
 
-export const WaiterPassword = ({ field, fieldSetter, setValid }) => {
+export const WaiterPassword = ({
+  field,
+  fieldSetter,
+  setValid,
+  setUserInfo,
+}) => {
   const [error, setError] = useState(false)
   const validatePass = async () => {
     const res = await validateUser(field)
     if (res && res !== null) {
       setValid(true)
       setError(false)
+      setUserInfo(res)
     } else {
       setError(true)
     }

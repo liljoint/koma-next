@@ -6,14 +6,13 @@ import fs from 'fs'
 const detailPrinter = async (content) => {
   try {
     const body = await fs.readFileSync('./src/templates/detail.hbs', 'utf-8')
-    const orderInfo = JSON.parse(content.get('content'))
-    console.log(orderInfo)
+
     await nodeHtmlToImage({
       html: body,
-      content: { ...orderInfo },
+      content: content,
       output: './printed.png',
       handlebarsHelpers: {
-        add: (a, b) => (a + b).toLocaleString('es-CL'),
+        add: (a, b) => (Number(a) + Number(b)).toLocaleString('es-CL'),
         format: (n) => n.toLocaleString('es-CL'),
         short: (s) => s.substring(0, 15),
       },

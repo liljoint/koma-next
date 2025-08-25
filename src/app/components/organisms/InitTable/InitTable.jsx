@@ -18,6 +18,7 @@ const InitTable = ({ onClick, title }) => {
           field={pass}
           fieldSetter={setPass}
           setValid={setValid}
+          setUserInfo={() => {}}
         ></WaiterPassword>
       )}
     </>

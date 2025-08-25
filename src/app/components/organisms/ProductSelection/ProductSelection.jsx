@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
 //import Products from '@/resources/Products.json'
 import Button from '@/app/components/atomics/Button/Button'
-import PrintButton from '@/app/components/molecules/PrintButton/PrintButton'
 import Input from '@/app/components/atomics/Input/Input'
 import Alert from '../../atomics/Alert/Alert'
 import { Spinner } from '@/mt'
@@ -11,6 +10,7 @@ import CurrentOrder from '@/app/components/organisms/CurrentOrder/CurrentOrder'
 import useSWR from 'swr'
 import PrintDetailButton from '../../molecules/PrintButton/PrintDetailButton'
 import { WaiterPassword } from '../WaiterPassword/WaiterPassword'
+import commandPrinter from '@/actions/commandPrinter'
 
 const ProductSelection = ({ title, table, productsList }) => {
   const [selectedItem, setSelectedItem] = useState(null)
@@ -18,6 +18,7 @@ const ProductSelection = ({ title, table, productsList }) => {
   const [productQuantity, setProductQuantity] = useState(1)
   const [pass, setPass] = useState('')
   const [isValid, setValid] = useState(false)
+  const [waiterInfo, setWaiterInfo] = useState(null)
   const [loadingUpdateProduct, setLoadingUpdateProduct] = useState(false)
 
   const {
@@ -60,8 +61,12 @@ const ProductSelection = ({ title, table, productsList }) => {
         mutate(res)
         setProducts([])
         setLoadingUpdateProduct(false)
+        commandPrinter(products, waiterInfo)
       })
       .catch((e) => console.log(e))
+  }
+  const getTip = (value) => {
+    return value * 0.1
   }
   return isValid ? (
     <div className="flex w-full flex-col gap-5">
@@ -77,10 +82,12 @@ const ProductSelection = ({ title, table, productsList }) => {
         />
         <div>
           <PrintDetailButton
-            content={JSON.stringify({
+            products={{
               ...currentOrder,
-              tip: currentOrder?.totalAmount * 0.1,
-            })}
+              tip: getTip(currentOrder?.totalAmount),
+              detailTotal:
+                getTip(currentOrder?.totalAmount) + currentOrder?.totalAmount,
+            }}
           />
         </div>
       </div>
@@ -110,7 +117,6 @@ const ProductSelection = ({ title, table, productsList }) => {
               </div>
             ))}
             <div className="flex gap-3">
-              <PrintButton content={JSON.stringify(products)} />
               <Button onClick={handleUpdateOrder} variant="filled">
                 Pedir
               </Button>
@@ -138,6 +144,7 @@ const ProductSelection = ({ title, table, productsList }) => {
       field={pass}
       fieldSetter={setPass}
       setValid={setValid}
+      setUserInfo={setWaiterInfo}
     ></WaiterPassword>
   )
 }
