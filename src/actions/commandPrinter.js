@@ -2,40 +2,51 @@
 import nodeHtmlToImage from 'node-html-to-image'
 import { PrinterTypes, ThermalPrinter } from 'node-thermal-printer'
 import fs from 'fs'
+import groupBy from 'lodash/groupBy'
 
 const commandPrinter = async (content, waiterInfo) => {
   try {
-    console.log(content, waiterInfo)
-    return
-    const body = await fs.readFileSync('./src/templates/detail.hbs', 'utf-8')
+    const data = groupBy(content, 'areaName')
 
-    await nodeHtmlToImage({
-      html: body,
-      content: content,
-      output: './printed.png',
-      handlebarsHelpers: {
-        add: (a, b) => (Number(a) + Number(b)).toLocaleString('es-CL'),
-        format: (n) => n.toLocaleString('es-CL'),
-        short: (s) => s.substring(0, 15),
-      },
-      type: 'png',
-    })
-    let printer = new ThermalPrinter({
-      type: PrinterTypes.EPSON,
-      interface: 'tcp://192.168.1.155:9100',
-    })
+    const workAreas = Object.keys(data)
+    const printerInfo = workAreas.map((workArea) => ({
+      areaName: workArea,
+      ip: data[workArea][0].ip,
+      products: data[workArea],
+    }))
 
-    let isConnected = await printer.isPrinterConnected()
+    const body = await fs.readFileSync('./src/templates/commands.hbs', 'utf-8')
 
-    if (isConnected) {
-      printer.beep()
-      await printer.printImage('./printed.png')
-      printer.cut()
+    await Promise.all(
+      printerInfo.map(async (workarea, index) => {
+        const pathName = `./printed-${workarea.areaName}-${index}.png`
+        await nodeHtmlToImage({
+          html: body,
+          content: {
+            ...workarea,
+            waiter: waiterInfo,
+          },
+          output: pathName,
+          type: 'png',
+        })
+        let printer = new ThermalPrinter({
+          type: PrinterTypes.EPSON,
+          interface: 'tcp://192.168.1.155:9100',
+        })
 
-      printer.execute()
-      console.log('printed!')
-      fs.unlinkSync('./printed.png')
-    }
+        let isConnected = await printer.isPrinterConnected()
+
+        if (isConnected) {
+          printer.beep()
+          await printer.printImage(pathName)
+          printer.cut()
+
+          printer.execute()
+          console.log('printed!')
+          fs.unlinkSync(pathName)
+        }
+      })
+    )
   } catch (e) {
     console.log(e)
   }

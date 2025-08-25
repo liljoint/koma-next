@@ -6,10 +6,8 @@ export const productTransform = ({ id, documentId, productName, workArea }) => {
     id: id,
     documentId,
     name: productName,
-    workArea: {
-      areaName: workArea.areaName,
-      ip: workArea.areaPrinters?.ip,
-    },
+    areaName: workArea.areaName,
+    ip: workArea.areaPrinters?.ip,
   }
 }
 export default productTransform
