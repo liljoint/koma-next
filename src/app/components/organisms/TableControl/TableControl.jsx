@@ -13,6 +13,7 @@ import { Spinner } from '@/mt'
 
 import useSWR from 'swr'
 import { getActiveProducts } from '@/client/products/products'
+import { WaiterPassword } from '@/app/components/organisms/WaiterPassword/WaiterPassword'
 
 const TableControl = () => {
   const [showTable, setShowTable] = useState(false)
@@ -36,7 +37,13 @@ const TableControl = () => {
   const handleShowTable = () => {
     setShowTable(!showTable)
   }
-
+  const [pass, setPass] = useState('')
+  const [isValid, setValid] = useState(false)
+  const [waiterInfo, setWaiterInfo] = useState(null)
+  const resetPass = () => {
+    setPass('')
+    setValid(false)
+  }
   return (
     <>
       <h1 className="text-text">Mesas</h1>
@@ -45,6 +52,7 @@ const TableControl = () => {
         tableAction={(table) => () => {
           handleShowTable()
           setSelectedTable(table)
+          resetPass()
         }}
       />
       <ModalCustom
@@ -55,17 +63,27 @@ const TableControl = () => {
       >
         <ModalHeader handler={handleShowTable} />
         <ModalBody className="overflow-y-scroll !px-5">
-          {selectedTable?.tableAvailable ? (
-            <InitTable
-              onClick={tableAvailable(selectedTable)}
-              title={`Inicializar ${selectedTable?.name}`}
-            />
+          {isValid ? (
+            selectedTable?.tableAvailable ? (
+              <InitTable
+                onClick={tableAvailable(selectedTable)}
+                title={`Inicializar ${selectedTable?.name}`}
+              />
+            ) : (
+              <ProductSelection
+                title={`${selectedTable?.name}`}
+                table={selectedTable}
+                productsList={productsList}
+                waiterInfo={waiterInfo}
+              />
+            )
           ) : (
-            <ProductSelection
-              title={`${selectedTable?.name}`}
-              table={selectedTable}
-              productsList={productsList}
-            />
+            <WaiterPassword
+              field={pass}
+              fieldSetter={setPass}
+              setValid={setValid}
+              setUserInfo={setWaiterInfo}
+            ></WaiterPassword>
           )}
         </ModalBody>
       </ModalCustom>

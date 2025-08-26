@@ -1,25 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
 //import Products from '@/resources/Products.json'
 import Button from '@/app/components/atomics/Button/Button'
-import Input from '@/app/components/atomics/Input/Input'
 import Alert from '../../atomics/Alert/Alert'
 import { Spinner } from '@/mt'
 import { getCurrentOrder, updateProductOrder } from '@/client/orders/orders'
 import CurrentOrder from '@/app/components/organisms/CurrentOrder/CurrentOrder'
 import useSWR from 'swr'
-import PrintDetailButton from '../../molecules/PrintButton/PrintDetailButton'
-import { WaiterPassword } from '../WaiterPassword/WaiterPassword'
 import commandPrinter from '@/actions/commandPrinter'
-import NewProducts from '../../molecules/NewProducts/NewProducts'
+import NewProducts from '@/app/components/molecules/NewProducts/NewProducts'
+import PrintDetailButton from '@/app/components/molecules/PrintButton/PrintDetailButton'
 
-const ProductSelection = ({ title, table, productsList }) => {
+const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [products, setProducts] = useState([])
   const [productQuantity, setProductQuantity] = useState(1)
-  const [pass, setPass] = useState('')
-  const [isValid, setValid] = useState(false)
-  const [waiterInfo, setWaiterInfo] = useState(null)
   const [loadingUpdateProduct, setLoadingUpdateProduct] = useState(false)
 
   const {
@@ -70,18 +65,11 @@ const ProductSelection = ({ title, table, productsList }) => {
   const getTip = (value) => {
     return value * 0.1
   }
-  return isValid ? (
+  return (
     <div className="flex w-full flex-col gap-5">
       <h1>{title}</h1>
-      {!isLoading ? <CurrentOrder orders={currentOrder?.orders} /> : null}
-      <div>
-        <div>Agregar productos:</div>
-        <Autocomplete
-          options={productsList}
-          onChange={handleOnChange}
-          value={selectedItem?.label || ''}
-          placeholder="Seleccione producto"
-        />
+
+      {currentOrder?.orders && currentOrder?.orders?.length > 0 ? (
         <div>
           <PrintDetailButton
             products={{
@@ -92,6 +80,17 @@ const ProductSelection = ({ title, table, productsList }) => {
             }}
           />
         </div>
+      ) : null}
+
+      {!isLoading ? <CurrentOrder orders={currentOrder?.orders} /> : null}
+      <div>
+        <div>Agregar productos:</div>
+        <Autocomplete
+          options={productsList}
+          onChange={handleOnChange}
+          value={selectedItem?.label || ''}
+          placeholder="Seleccione producto"
+        />
       </div>
       <>
         {selectedItem && (
@@ -118,7 +117,7 @@ const ProductSelection = ({ title, table, productsList }) => {
             ))}
             <div className="flex gap-3">
               <Button onClick={handleUpdateOrder} variant="filled">
-                Pedir
+                Confirmar
               </Button>
             </div>
           </div>
@@ -139,13 +138,6 @@ const ProductSelection = ({ title, table, productsList }) => {
         Actualizando producto <Spinner />
       </Alert>
     </div>
-  ) : (
-    <WaiterPassword
-      field={pass}
-      fieldSetter={setPass}
-      setValid={setValid}
-      setUserInfo={setWaiterInfo}
-    ></WaiterPassword>
   )
 }
 
