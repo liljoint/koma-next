@@ -28,6 +28,10 @@ const commandPrinter = async (content, waiterInfo) => {
           },
           output: pathName,
           type: 'png',
+          puppeteerArgs: {
+            headless: 'shell',
+            args: ['--no-sandbox'], // Path to the manually installed Chromium
+          },
         })
         let printer = new ThermalPrinter({
           type: PrinterTypes.EPSON,

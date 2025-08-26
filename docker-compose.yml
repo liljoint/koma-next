@@ -5,6 +5,10 @@ services:
       dockerfile: Dockerfile
     container_name: docker-next
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - .:/app
+networks:
+  strapi:
+    name: strapi
+    driver: bridge

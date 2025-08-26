@@ -17,6 +17,10 @@ const detailPrinter = async (content) => {
         short: (s) => s.substring(0, 15),
       },
       type: 'png',
+      puppeteerArgs: {
+        headless: 'shell',
+        args: ['--no-sandbox'], // Path to the manually installed Chromium
+      },
     })
     let printer = new ThermalPrinter({
       type: PrinterTypes.EPSON,
