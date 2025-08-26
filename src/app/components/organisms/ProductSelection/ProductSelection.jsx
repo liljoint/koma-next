@@ -11,6 +11,7 @@ import useSWR from 'swr'
 import PrintDetailButton from '../../molecules/PrintButton/PrintDetailButton'
 import { WaiterPassword } from '../WaiterPassword/WaiterPassword'
 import commandPrinter from '@/actions/commandPrinter'
+import NewProducts from '../../molecules/NewProducts/NewProducts'
 
 const ProductSelection = ({ title, table, productsList }) => {
   const [selectedItem, setSelectedItem] = useState(null)
@@ -32,6 +33,7 @@ const ProductSelection = ({ title, table, productsList }) => {
 
   const handleOnChange = (data) => {
     setSelectedItem(data)
+    setProductQuantity(1)
   }
 
   const handleAddProduct = () => {
@@ -97,23 +99,21 @@ const ProductSelection = ({ title, table, productsList }) => {
             <h1>Agregar Pedido</h1>
             <div className="flex items-center justify-between gap-3">
               {selectedItem.label}
-              <Input
-                placeholder="Cantidad"
+
+              <NewProducts
                 value={productQuantity}
-                onChange={(e) => setProductQuantity(e.target.value)}
-                type="number"
-                min="1"
+                setValue={setProductQuantity}
               />
-              <Button onClick={handleAddProduct}>+</Button>
+              <Button onClick={handleAddProduct}>Agregar Pedido</Button>
             </div>
           </div>
         )}
         {products.length > 0 && (
           <div className="pt-5">
-            <h1>Pedido</h1>
+            <h1>Agregar Pedido</h1>
             {products?.map((product, index) => (
-              <div key={index}>
-                {product.name} {product.quantity}
+              <div className="flex w-1/3 justify-between" key={index}>
+                <span>{product.name}</span> <span>{product.quantity}</span>
               </div>
             ))}
             <div className="flex gap-3">
