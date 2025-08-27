@@ -28,10 +28,15 @@ const LoginForm = () => {
       const result = loginSchema.parse(data)
       setAlert(true)
       const authData = await auth(result)
-      setSession(authData)
-      localStorage.setItem('session', JSON.stringify(authData))
-      setAlert(false)
-      router.push('/')
+      if (authData?.user?.isAdmin) {
+        setSession(authData)
+        localStorage.setItem('session', JSON.stringify(authData))
+        setAlert(false)
+        router.push('/')
+      } else {
+        setAlert(false)
+        setFormErrors({ form: 'No es administrador' })
+      }
     } catch (error) {
       setAlert(false)
       const err = {}
