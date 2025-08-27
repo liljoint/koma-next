@@ -1,8 +1,8 @@
 import { ThemeProvider } from '@/mt'
 import '@/globals.css'
-import Container from './components/organisms/Container/Container'
-import { Context } from './persistance/Context'
-import { SWRProvider } from './swr/SwrProvider'
+import Container from '@/app/components/organisms/Container/Container'
+import { Context } from '@/persistance/Context'
+import { SWRProvider } from '@/swr/SwrProvider'
 
 export const metadata = {
   title: 'KOMA APP',

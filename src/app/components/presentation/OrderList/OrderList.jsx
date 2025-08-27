@@ -1,10 +1,18 @@
 'use client'
 import { useEffect, useState } from 'react'
-import SkeletonBody from '@/app/components/molecules/SkeletonBody/SkeletonBody'
-import getOrders from '@/client/orders/orders'
+
+import getOrders, { getCurrentOrder } from '@/client/orders/orders'
 import Alert from '@/app/components/atomics/Alert/Alert'
 import { Spinner } from '@/mt'
 import Table from '@/app/components/molecules/Table/Table'
+import ModalCustom, {
+  ModalBody,
+  ModalHeader,
+} from '@/app/components/molecules/ModalCustom/ModalCustom'
+import ProductSelection from '@/app/components/organisms/ProductSelection/ProductSelection'
+import useSWR from 'swr'
+import { getActiveProducts } from '@/client/products/products'
+import EditOrder from '@/app/components/organisms/EditOrder/EditOrder'
 
 const headers = ['id', 'Completado', 'Mesa', '']
 
@@ -17,6 +25,21 @@ const OrderList = () => {
     pageCount: 1,
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [showTable, setShowTable] = useState(false)
+  const [selectedTable, setSelectedTable] = useState(false)
+  const [currentOrder, setCurrentOrder] = useState({})
+
+  useEffect(() => {
+    if (selectedTable) {
+      getCurrentOrder(selectedTable)(
+        `/api/request-order/get-current-request-order?tableid=${selectedTable?.id}&populate=*`
+      ).then((res) => setCurrentOrder(res))
+    }
+  }, [selectedTable])
+  const handleShowTable = () => {
+    setShowTable(!showTable)
+  }
+
   useEffect(() => {
     setIsLoading(true)
     getOrders()
@@ -29,6 +52,16 @@ const OrderList = () => {
         setIsLoading(false)
       })
   }, [])
+
+  const editAction = (table) => () => {
+    console.log(JSON.stringify(table.tableAll))
+    handleShowTable()
+    setSelectedTable(table.tableAll)
+  }
+  const { data: productsList } = useSWR(
+    '/api/products?pagination[limit]=1000&filters[productAvailable][$eq]=true&populate=*',
+    getActiveProducts
+  )
   return (
     <>
       <h1>Pedidos Activos</h1>
@@ -40,10 +73,31 @@ const OrderList = () => {
           headers={headers}
           rows={orders}
           displayParams={displayParams}
+          editAction={editAction}
         />
       ) : (
         'NO hay ordenes disponibles'
       )}
+      <ModalCustom
+        isOpen={showTable}
+        handler={handleShowTable}
+        size="md"
+        className={'border-2 border-gray-500 bg-bg'}
+      >
+        <ModalHeader handler={handleShowTable} />
+        <ModalBody className="overflow-y-scroll !px-5">
+          <EditOrder currentOrder={currentOrder}>
+            <ProductSelection
+              title={`${selectedTable?.tableName}`}
+              table={selectedTable}
+              productsList={productsList}
+              currentOrder={currentOrder}
+              isLoadingOrder={false}
+              mutateOrder={setCurrentOrder}
+            />
+          </EditOrder>
+        </ModalBody>
+      </ModalCustom>
       <Alert color="blue" open={isLoading}>
         Cargando pedidos <Spinner className="h-5 w-5" />
       </Alert>

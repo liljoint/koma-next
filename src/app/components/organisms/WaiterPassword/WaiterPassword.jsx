@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import Button from '../../atomics/Button/Button'
-import Input from '../../atomics/Input/Input'
+import Button from '@/app/components/atomics/Button/Button'
+import Input from '@/app/components/atomics/Input/Input'
 import { validateUser } from '@/client/user/users'
-import Label from '../../atomics/Label/Label'
+import Label from '@/app/components/atomics/Label/Label'
 
 export const WaiterPassword = ({
   field,
@@ -10,15 +10,15 @@ export const WaiterPassword = ({
   setValid,
   setUserInfo,
 }) => {
-  const [error, setError] = useState(false)
+  const [error, setError] = useState('false')
   const validatePass = async () => {
     const res = await validateUser(field)
     if (res && res !== null) {
       setValid(true)
-      setError(false)
+      setError('false')
       setUserInfo(res)
     } else {
-      setError(true)
+      setError('true')
     }
   }
   return (
@@ -29,11 +29,11 @@ export const WaiterPassword = ({
           <Input
             value={field}
             onChange={(e) => fieldSetter(e.target.value)}
-            error={error}
+            error={error || undefined}
           />
-          {error ? (
+          {error && error !== 'false' ? (
             <Label className="text-xs !text-red-500">Contraseña inválida</Label>
-          ) : null}
+          ) : undefined}
         </div>
       </div>
       <Button className="mx-auto w-1/5" onClick={validatePass}>

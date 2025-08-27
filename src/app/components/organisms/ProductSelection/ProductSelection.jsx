@@ -4,29 +4,28 @@ import Autocomplete from '@/app/components/molecules/Autocomplete/Autocomplete'
 import Button from '@/app/components/atomics/Button/Button'
 import Alert from '../../atomics/Alert/Alert'
 import { Spinner } from '@/mt'
-import { getCurrentOrder, updateProductOrder } from '@/client/orders/orders'
+import { updateProductOrder } from '@/client/orders/orders'
 import CurrentOrder from '@/app/components/organisms/CurrentOrder/CurrentOrder'
-import useSWR from 'swr'
+
 import commandPrinter from '@/actions/commandPrinter'
 import NewProducts from '@/app/components/molecules/NewProducts/NewProducts'
 import PrintDetailButton from '@/app/components/molecules/PrintButton/PrintDetailButton'
 import Input from '@/app/components/atomics/Input/Input'
 
-const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
+const ProductSelection = ({
+  title,
+  table,
+  productsList,
+  waiterInfo,
+  mutateOrder,
+  currentOrder,
+  isLoadingOrder,
+}) => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [products, setProducts] = useState([])
   const [productQuantity, setProductQuantity] = useState(1)
   const [observation, setObservation] = useState('')
   const [loadingUpdateProduct, setLoadingUpdateProduct] = useState(false)
-
-  const {
-    data: currentOrder,
-    isLoading,
-    mutate,
-  } = useSWR(
-    [`/api/request-order/get-current-request-order?tableid=${table.id}`],
-    getCurrentOrder(table)
-  )
 
   const handleOnChange = (data) => {
     setSelectedItem(data)
@@ -59,10 +58,10 @@ const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
     setLoadingUpdateProduct(true)
     updateProductOrder(table, products)
       .then((res) => {
-        mutate(res)
+        mutateOrder(res)
         setProducts([])
         setLoadingUpdateProduct(false)
-        commandPrinter(products, waiterInfo)
+        commandPrinter(products, waiterInfo, table)
       })
       .catch((e) => console.log(e))
   }
@@ -87,7 +86,7 @@ const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
         ) : null}
       </div>
 
-      {!isLoading ? (
+      {!isLoadingOrder ? (
         <CurrentOrder
           className="max-h-[130px] overflow-y-scroll text-xs"
           orders={currentOrder?.orders}
@@ -140,7 +139,7 @@ const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
       </>
       <Alert
         color="yellow"
-        open={isLoading}
+        open={isLoadingOrder}
         onClose={() => setIsLoading(false)}
       >
         Cargando productos <Spinner />

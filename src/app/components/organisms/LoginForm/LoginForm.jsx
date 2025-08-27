@@ -7,7 +7,7 @@ import Input from '@/app/components/atomics/Input/Input'
 import { Spinner } from '@material-tailwind/react'
 import Alert from '@/app/components/atomics/Alert/Alert'
 import auth from '@/client/auth/auth'
-import { AppContext } from '@/app/persistance/Context'
+import { AppContext } from '@/persistance/Context'
 
 const LoginForm = () => {
   const { setSession } = useContext(AppContext)
@@ -69,7 +69,7 @@ const LoginForm = () => {
             <Input
               name="email"
               color="green"
-              error={formErrors['email'] ? true : false}
+              error={formErrors['email'] ? true : undefined}
               label={formErrors['email'] ? formErrors['email'] : 'Email'}
               onChange={onChange}
             />
@@ -78,7 +78,7 @@ const LoginForm = () => {
             <Input
               type="password"
               name="pw"
-              error={formErrors['pw'] ? true : false}
+              error={formErrors['pw'] ? true : undefined}
               label={formErrors['pw'] ? formErrors['pw'] : 'Contraseña'}
               onChange={onChange}
             />

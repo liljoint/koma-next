@@ -1,7 +1,7 @@
 'use client'
 import { Typography } from '@/mt'
 import Pagination from '@/app/components/molecules/Pagination/Pagination'
-import Button from '../../atomics/Button/Button'
+import Button from '@/app/components/atomics/Button/Button'
 
 const Table = ({
   headers = [],
@@ -10,6 +10,7 @@ const Table = ({
   page,
   pageCount,
   pageSize,
+  editAction,
 }) => {
   return (
     <div
@@ -52,7 +53,7 @@ const Table = ({
                   </td>
                 ))}
                 <td className={classes}>
-                  <Button>Edit</Button>
+                  <Button onClick={editAction(row)}>Edit</Button>
                 </td>
               </tr>
             )

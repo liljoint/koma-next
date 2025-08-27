@@ -1,3 +1,4 @@
+'use server'
 import client from '@/client/client'
 
 const auth = async ({ email, pw }) => {

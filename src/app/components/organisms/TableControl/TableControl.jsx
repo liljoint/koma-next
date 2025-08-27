@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TableList from '@/app/components/molecules/TableList/TableList'
 import ProductSelection from '@/app/components/organisms/ProductSelection/ProductSelection'
 import ModalCustom, {
@@ -14,10 +14,12 @@ import { Spinner } from '@/mt'
 import useSWR from 'swr'
 import { getActiveProducts } from '@/client/products/products'
 import { WaiterPassword } from '@/app/components/organisms/WaiterPassword/WaiterPassword'
+import { getCurrentOrder } from '@/client/orders/orders'
 
 const TableControl = () => {
   const [showTable, setShowTable] = useState(false)
   const [selectedTable, setSelectedTable] = useState(false)
+  const [currentOrder, setCurrentOrder] = useState({})
   //const [isLoading, setIsLoading] = useState(false)
   // const [tables, setTables] = useState()
 
@@ -26,6 +28,7 @@ const TableControl = () => {
     '/api/products?pagination[limit]=1000&filters[productAvailable][$eq]=true&populate=*',
     getActiveProducts
   )
+
   const tableAvailable = (table) => () => {
     createAndOpenTable(table)
       .then((res) => {
@@ -34,6 +37,13 @@ const TableControl = () => {
       })
       .catch((e) => console.log(e))
   }
+  useEffect(() => {
+    if (selectedTable) {
+      getCurrentOrder(selectedTable)(
+        `/api/request-order/get-current-request-order?tableid=${selectedTable?.id}&populate=*`
+      ).then((res) => setCurrentOrder(res))
+    }
+  }, [selectedTable])
   const handleShowTable = () => {
     setShowTable(!showTable)
   }
@@ -67,14 +77,17 @@ const TableControl = () => {
             selectedTable?.tableAvailable ? (
               <InitTable
                 onClick={tableAvailable(selectedTable)}
-                title={`Inicializar ${selectedTable?.name}`}
+                title={`Inicializar ${selectedTable?.tableName}`}
               />
             ) : (
               <ProductSelection
-                title={`${selectedTable?.name}`}
+                title={`${selectedTable?.tableName}`}
                 table={selectedTable}
                 productsList={productsList}
                 waiterInfo={waiterInfo}
+                currentOrder={currentOrder}
+                isLoadingOrder={false}
+                mutateOrder={setCurrentOrder}
               />
             )
           ) : (

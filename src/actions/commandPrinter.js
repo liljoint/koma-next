@@ -4,10 +4,9 @@ import { PrinterTypes, ThermalPrinter } from 'node-thermal-printer'
 import fs from 'fs'
 import groupBy from 'lodash/groupBy'
 
-const commandPrinter = async (content, waiterInfo) => {
+const commandPrinter = async (content, waiterInfo, table) => {
   try {
     const data = groupBy(content, 'areaName')
-
     const workAreas = Object.keys(data)
     const printerInfo = workAreas.map((workArea) => ({
       areaName: workArea,
@@ -25,6 +24,7 @@ const commandPrinter = async (content, waiterInfo) => {
           content: {
             ...workarea,
             waiter: waiterInfo,
+            table: table,
           },
           output: pathName,
           type: 'png',

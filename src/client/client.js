@@ -14,12 +14,13 @@ const client = async ({
     const response = await fetch(`${baseUrl}${path}`, config)
 
     if (!response.ok) {
-      throw new Error('Error en llamada')
+      throw response
     }
     const data = await response.json()
     return data
   } catch (e) {
-    throw e
+    const data = await e.json()
+    throw new Error(data?.error?.message)
   }
 }
 

@@ -6,6 +6,7 @@ export const orderTransform = ({ id, ...all }) => {
     id: id,
     isCompleted: all.isCompleted,
     table: all.table.tableName,
+    tableAll: all.table,
     items: orderItemsTransform(all.orders),
   }
 }

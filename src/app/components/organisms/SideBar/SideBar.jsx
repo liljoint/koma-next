@@ -7,7 +7,7 @@ import ModalCustom, {
   ModalHeader,
 } from '@/app/components/molecules/ModalCustom/ModalCustom'
 import Link from 'next/link'
-import { AppContext } from '@/app/persistance/Context'
+import { AppContext } from '@/persistance/Context'
 import { changeTheme } from '@/actions/helper'
 
 const SideBar = () => {
