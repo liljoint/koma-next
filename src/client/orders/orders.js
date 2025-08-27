@@ -44,6 +44,25 @@ export const updateProductOrder = async (table, products) => {
     method: 'POST',
     body: body,
   })
+  try {
+    const res = currentOrderTransform(result)
+    console.log(res)
+    return res
+  } catch (e) {
+    console.log(e)
+  }
+}
+export const updateFullOrder = async (order) => {
+  const body = {
+    data: {
+      ...order,
+    },
+  }
+  const result = await strapiClient({
+    path: `/api/request-order/update-full-order`,
+    method: 'POST',
+    body: body,
+  })
   return currentOrderTransform(result)
 }
 export default getOrders

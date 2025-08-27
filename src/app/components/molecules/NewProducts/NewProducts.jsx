@@ -24,7 +24,7 @@ const NewProducts = ({ value, setValue }) => {
       >
         -
       </div>
-      <div className="w-10">
+      <div className="w-16">
         <Input
           className="flex w-full items-center justify-center border-none text-center"
           value={value}

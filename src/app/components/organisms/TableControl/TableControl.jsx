@@ -38,7 +38,8 @@ const TableControl = () => {
       .catch((e) => console.log(e))
   }
   useEffect(() => {
-    if (selectedTable) {
+    console.log(selectedTable)
+    if (selectedTable && selectedTable.tableAvailable === false) {
       getCurrentOrder(selectedTable)(
         `/api/request-order/get-current-request-order?tableid=${selectedTable?.id}&populate=*`
       ).then((res) => setCurrentOrder(res))

@@ -58,6 +58,7 @@ const ProductSelection = ({
     setLoadingUpdateProduct(true)
     updateProductOrder(table, products)
       .then((res) => {
+        console.log(res)
         mutateOrder(res)
         setProducts([])
         setLoadingUpdateProduct(false)
@@ -105,7 +106,7 @@ const ProductSelection = ({
         {selectedItem && (
           <div>
             <h1>Agregar Pedido</h1>
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-3 text-sm">
               {selectedItem.label}
 
               <NewProducts

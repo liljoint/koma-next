@@ -40,8 +40,7 @@ const OrderList = () => {
     setShowTable(!showTable)
   }
 
-  useEffect(() => {
-    setIsLoading(true)
+  const loadData = () => {
     getOrders()
       .then(({ data, pagination }) => {
         setIsLoading(false)
@@ -51,12 +50,21 @@ const OrderList = () => {
       .catch((e) => {
         setIsLoading(false)
       })
+  }
+  useEffect(() => {
+    setIsLoading(true)
+    loadData()
   }, [])
 
   const editAction = (table) => () => {
     console.log(JSON.stringify(table.tableAll))
     handleShowTable()
     setSelectedTable(table.tableAll)
+  }
+
+  const handleEnd = () => {
+    loadData()
+    handleShowTable()
   }
   const { data: productsList } = useSWR(
     '/api/products?pagination[limit]=1000&filters[productAvailable][$eq]=true&populate=*',
@@ -86,7 +94,7 @@ const OrderList = () => {
       >
         <ModalHeader handler={handleShowTable} />
         <ModalBody className="overflow-y-scroll !px-5">
-          <EditOrder currentOrder={currentOrder}>
+          <EditOrder currentOrder={currentOrder} handleFinish={handleEnd}>
             <ProductSelection
               title={`${selectedTable?.tableName}`}
               table={selectedTable}
