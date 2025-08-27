@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const CurrentOrder = ({ orders }) => {
+const CurrentOrder = ({ className, orders }) => {
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const CurrentOrder = ({ orders }) => {
   }, [setTotal, orders])
   return (
     <>
-      <div className="w-full">
+      <div className={`w-full ${className}`}>
         <div className="mx-auto grid grid-cols-4 justify-center">
           <div className="col-span-4 font-bold">Detalle actual</div>
           <div className="font-bold">Nombre</div>
@@ -28,7 +28,7 @@ const CurrentOrder = ({ orders }) => {
                   <div>{quantity}</div>
                   <div>$ {Number(unitPrice).toLocaleString('es-CL')}</div>
 
-                  <div>
+                  <div className="flex w-1/2 justify-end">
                     $ {Number(quantity * unitPrice).toLocaleString('es-CL')}
                   </div>
                 </div>

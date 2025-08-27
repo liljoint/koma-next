@@ -10,11 +10,13 @@ import useSWR from 'swr'
 import commandPrinter from '@/actions/commandPrinter'
 import NewProducts from '@/app/components/molecules/NewProducts/NewProducts'
 import PrintDetailButton from '@/app/components/molecules/PrintButton/PrintDetailButton'
+import Input from '@/app/components/atomics/Input/Input'
 
 const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
   const [selectedItem, setSelectedItem] = useState(null)
   const [products, setProducts] = useState([])
   const [productQuantity, setProductQuantity] = useState(1)
+  const [observation, setObservation] = useState('')
   const [loadingUpdateProduct, setLoadingUpdateProduct] = useState(false)
 
   const {
@@ -29,6 +31,7 @@ const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
   const handleOnChange = (data) => {
     setSelectedItem(data)
     setProductQuantity(1)
+    setObservation('')
   }
 
   const handleAddProduct = () => {
@@ -37,6 +40,7 @@ const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
       id: selectedItem.value,
       quantity: productQuantity,
       name: selectedItem.label,
+      observation,
     }
     products.length > 0
       ? setProducts((prev) => {
@@ -66,23 +70,29 @@ const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
     return value * 0.1
   }
   return (
-    <div className="flex w-full flex-col gap-5">
-      <h1>{title}</h1>
+    <div className="flex w-full select-none flex-col gap-5">
+      <div className="flex flex-row gap-2">
+        <h1>{title}</h1>
+        {currentOrder?.orders && currentOrder?.orders?.length > 0 ? (
+          <div>
+            <PrintDetailButton
+              products={{
+                ...currentOrder,
+                tip: getTip(currentOrder?.totalAmount),
+                detailTotal:
+                  getTip(currentOrder?.totalAmount) + currentOrder?.totalAmount,
+              }}
+            />
+          </div>
+        ) : null}
+      </div>
 
-      {currentOrder?.orders && currentOrder?.orders?.length > 0 ? (
-        <div>
-          <PrintDetailButton
-            products={{
-              ...currentOrder,
-              tip: getTip(currentOrder?.totalAmount),
-              detailTotal:
-                getTip(currentOrder?.totalAmount) + currentOrder?.totalAmount,
-            }}
-          />
-        </div>
+      {!isLoading ? (
+        <CurrentOrder
+          className="max-h-[130px] overflow-y-scroll text-xs"
+          orders={currentOrder?.orders}
+        />
       ) : null}
-
-      {!isLoading ? <CurrentOrder orders={currentOrder?.orders} /> : null}
       <div>
         <div>Agregar productos:</div>
         <Autocomplete
@@ -102,6 +112,11 @@ const ProductSelection = ({ title, table, productsList, waiterInfo }) => {
               <NewProducts
                 value={productQuantity}
                 setValue={setProductQuantity}
+              />
+              <Input
+                value={observation}
+                onChange={(e) => setObservation(e.target.value)}
+                className="px-2 text-sm"
               />
               <Button onClick={handleAddProduct}>Agregar Pedido</Button>
             </div>

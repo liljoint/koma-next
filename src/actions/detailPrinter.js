@@ -14,7 +14,11 @@ const detailPrinter = async (content) => {
       handlebarsHelpers: {
         add: (a, b) => (Number(a) + Number(b)).toLocaleString('es-CL'),
         format: (n) => n.toLocaleString('es-CL'),
-        short: (s) => s.substring(0, 15),
+        short: (s) => s.substring(0, 20),
+        now: (s) => {
+          const date = new Date()
+          return date.toLocaleString('es-CL')
+        },
       },
       type: 'png',
       puppeteerArgs: {
