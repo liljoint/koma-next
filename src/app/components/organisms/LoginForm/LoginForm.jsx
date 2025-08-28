@@ -28,6 +28,9 @@ const LoginForm = () => {
       const result = loginSchema.parse(data)
       setAlert(true)
       const authData = await auth(result)
+      if (authData?.error) {
+        throw authData?.error
+      }
       if (authData?.user?.isAdmin) {
         setSession(authData)
         localStorage.setItem('session', JSON.stringify(authData))

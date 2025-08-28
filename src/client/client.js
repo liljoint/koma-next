@@ -10,18 +10,14 @@ const client = async ({
     body: JSON.stringify(body),
     headers,
   }
-  try {
-    const response = await fetch(`${baseUrl}${path}`, config)
+  const response = await fetch(`${baseUrl}${path}`, config)
 
-    if (!response.ok) {
-      throw response
-    }
-    const data = await response.json()
-    return data
-  } catch (e) {
-    const data = await e.json()
-    throw new Error(data?.error?.message)
+  const data = await response.json()
+  if (!response.ok) {
+    return { error: data?.error }
   }
+
+  return data
 }
 
 export default client
