@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: false,
-  output: 'standalone',
   webpack: (config, context) => {
     return {
       ...config,
@@ -15,4 +15,4 @@ const nextConfig = {
     }
   },
 }
-export default nextConfig
+module.exports = nextConfig
