@@ -86,13 +86,6 @@ const ProductSelection = ({
           </div>
         ) : null}
       </div>
-
-      {!isLoadingOrder ? (
-        <CurrentOrder
-          className="max-h-[130px] overflow-y-scroll text-xs"
-          orders={currentOrder?.orders}
-        />
-      ) : null}
       <div>
         <div>Agregar productos:</div>
         <Autocomplete
@@ -106,7 +99,7 @@ const ProductSelection = ({
         {selectedItem && (
           <div>
             <h1>Agregar Pedido</h1>
-            <div className="flex items-center justify-between gap-3 text-sm">
+            <div className="flex w-full flex-col items-center justify-between gap-3 text-sm md:flex-row">
               {selectedItem.label}
 
               <NewProducts
@@ -117,6 +110,7 @@ const ProductSelection = ({
                 value={observation}
                 onChange={(e) => setObservation(e.target.value)}
                 className="px-2 text-sm"
+                placeholder="Comentario"
               />
               <Button onClick={handleAddProduct}>Agregar Pedido</Button>
             </div>
@@ -138,6 +132,13 @@ const ProductSelection = ({
           </div>
         )}
       </>
+      {!isLoadingOrder ? (
+        <CurrentOrder
+          className="max-h-[130px] overflow-y-scroll text-xs"
+          orders={currentOrder?.orders}
+        />
+      ) : null}
+
       <Alert
         color="yellow"
         open={isLoadingOrder}

@@ -8,12 +8,12 @@ describe('Molecules - TableList', () => {
     const data = [
       {
         id: 1,
-        name: 'Mesa 1',
+        tableName: 'Mesa 1',
         tableAvailable: true,
       },
       {
         id: 2,
-        name: 'Mesa 2',
+        tableName: 'Mesa 2',
         tableAvailable: false,
       },
     ]

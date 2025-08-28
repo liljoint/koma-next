@@ -36,7 +36,10 @@ export const WaiterPassword = ({
           ) : undefined}
         </div>
       </div>
-      <Button className="mx-auto w-1/5" onClick={validatePass}>
+      <Button
+        className="mx-auto flex w-2/5 items-center justify-center"
+        onClick={validatePass}
+      >
         Validar
       </Button>
     </div>
